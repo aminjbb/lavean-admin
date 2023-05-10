@@ -1,0 +1,120 @@
+﻿@font-face {
+    font-family: Dana;
+
+    src: url('../fonts/woff2/dana-light.woff2') format('woff2'),
+        url('../fonts/woff/dana-light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Dana;
+    src: url('../fonts/woff2/dana-regular.woff2') format('woff2'),
+        url('../fonts/woff/dana-regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Dana;
+    src:
+        url('../fonts/woff2/dana-demibold.woff2') format('woff2'),
+        url('../fonts/woff/dana-demibold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Dana;
+
+    src:
+        url('../fonts/woff2/Dana-ExtraBold.woff2') format('woff2'),
+        url('../fonts/woff/Dana-ExtraBold.woff') format('woff');
+
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Dana;
+
+    src:
+        url('../fonts/woff2/Dana-Black.woff2') format('woff2'),
+        url('../fonts/woff/Dana-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@font-face {
+    font-family: DanaFa;
+
+    src:
+        url('../fonts/fa/woff2/DanaFaNum-Light.woff2') format('woff2'),
+        url('../fonts/fa/woff/DanaFaNum-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: DanaFa;
+
+    src:
+        url('../fonts/fa/woff2/DanaFaNum-Regular.woff2') format('woff2'),
+        url('../fonts/fa/woff/DanaFaNum-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: DanaFa;
+
+    src:
+        url('../fonts/fa/woff2/DanaFaNum-DemiBold.woff2') format('woff2'),
+        url('../fonts/fa/woff/DanaFaNum-DemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+}
+@font-face {
+    font-family: DanaFa;
+
+    src:
+        url('../fonts/fa/woff2/DanaFaNum-ExtraBold.woff2') format('woff2'),
+        url('../fonts/fa/woff/DanaFaNum-ExtraBold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+}
+@font-face {
+    font-family: DanaFa;
+
+    src:
+        url('../fonts/fa/woff2/DanaFaNum-Black.woff2') format('woff2'),
+        url('../fonts/fa/woff/DanaFaNum-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}

@@ -1,0 +1,33 @@
+.rcontainer {
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media only screen and (min-width: 960px) {
+    .container {
+        max-width: 98% !important;
+    }
+    .rcontainer {
+        max-width: 98% !important;
+    }
+}
+
+@media only screen and (min-width: 1264px) {
+    .container {
+        max-width: 80% !important;
+    }
+    .rcontainer {
+        max-width: 1200px !important;
+    }
+}
+
+@media only screen and (min-width: 1904px) {
+    .container {
+        max-width: 1148px !important;
+    }
+
+    .rcontainer {
+        max-width: 1200px !important;
+    }
+}

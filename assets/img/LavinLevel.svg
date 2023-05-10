@@ -1,0 +1,13 @@
+<svg width="624" height="14" viewBox="0 0 624 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle r="4" transform="matrix(1 0 0 -1 617 7)" fill="white"/>
+<circle r="7" transform="matrix(1 0 0 -1 617 7)" fill="white" fill-opacity="0.5"/>
+<circle r="7" transform="matrix(1 0 0 -1 462 7)" fill="white" fill-opacity="0.5"/>
+<circle r="7" transform="matrix(1 0 0 -1 312 7)" fill="white" fill-opacity="0.5"/>
+<circle r="7" transform="matrix(1 0 0 -1 162 7)" fill="white" fill-opacity="0.5"/>
+<circle r="7" transform="matrix(1 0 0 -1 7 7)" fill="white" fill-opacity="0.5"/>
+<circle r="4" transform="matrix(1 0 0 -1 462 7)" fill="white"/>
+<circle r="4" transform="matrix(1 0 0 -1 312 7)" fill="white"/>
+<circle r="4" transform="matrix(1 0 0 -1 162 7)" fill="white"/>
+<circle r="4" transform="matrix(1 0 0 -1 7 7)" fill="white"/>
+<line x1="621" y1="7.5" x2="7" y2="7.50005" stroke="white"/>
+</svg>
