@@ -8,18 +8,21 @@
                     </span>
                 </v-row>
             </v-card>
-            <v-card height="103" class="mx-10 mt-5 br-15" outlined>
+            <v-card v-if="!addBrache" height="103" class="mx-10 mt-5 br-15" outlined>
                 <v-row justify="space-between" class="pa-11">
                     <span class="mt-2 t14600">
                         افزودن شعبه جدید
                     </span>
                     <span>
-                        <v-btn icon>
+                        <v-btn icon @click="addBrache = true">
                             <img src="~/assets/img/PlusCircle.svg" alt="">
                         </v-btn>
                     </span>
                 </v-row>
+
             </v-card>
+
+            <AddBranche v-else :close="closeAdd"/>
 
             <v-card height="103" outlined class="ma-3 mx-10 br-15">
                 <v-row align="center" class="fill-height">
@@ -88,11 +91,22 @@
 </template>
   
 <script>
+import AddBranche from '~/components/Branche/AddBranche'
 export default {
-    name: 'IndexPage',
+    components:{
+        AddBranche
+    },
     data() {
         return {
-            message: ''
+            message: '',
+            addBrache:false
+        }
+    },
+
+
+    methods:{
+        closeAdd(){
+            this.addBrache =false;
         }
     }
 }
