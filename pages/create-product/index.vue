@@ -62,7 +62,6 @@
 
             </v-col>
 
-
         </v-row>
         <v-row justify="center" class="mt-15 pt-10">
             <v-col cols="4">

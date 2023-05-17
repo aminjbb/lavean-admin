@@ -14,7 +14,7 @@
                 افزودن محصول جدید فروش ویژه
             </span>
             <span>
-              <v-btn icon>
+              <v-btn to="/special-sales/add" icon>
                 <img src="~/assets/img/PlusCircle.svg" alt="">
               </v-btn>
             </span>

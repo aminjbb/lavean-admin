@@ -9,21 +9,21 @@
                 </v-row>
             </v-card>
 
-            <v-card height="103" class="mx-10 mt-5" outlined rounded="lg">
+            <v-card v-if="!addCopon" height="103" class="mx-10 mt-5" outlined rounded="lg">
                 <v-row justify="space-between" class="pa-11">
                     <span class="mt-2 t14600">
                         افزودن کوپن تخفیف
 
                     </span>
                     <span>
-                        <v-btn icon>
+                        <v-btn @click="addCopon = true" icon>
                             <img src="~/assets/img/PlusCircle.svg" alt="">
                         </v-btn>
                     </span>
                 </v-row>
             </v-card>
 
-
+            <AddCopon v-else :close="closeAdd"/>
             <!-- <v-row class="ma-3">
           <v-col cols="2" >
             <v-text-field class="rounded-lg" v-model="message" label="Outlined" outlined clearable></v-text-field>
@@ -51,10 +51,14 @@
 </template>
   
 <script>
+import AddCopon from '~/components/Copon/AddCopon'
 export default {
-    name: 'IndexPage',
+    components: {
+        AddCopon
+    },
     data() {
         return {
+            addCopon:false,
             headers: [
                 {
                     text: 'نام کوپن',
@@ -84,6 +88,12 @@ export default {
             ],
         }
     },
+
+    methods:{
+        closeAdd(){
+            this.addCopon = false
+        }
+    }
 }
 </script>
   
