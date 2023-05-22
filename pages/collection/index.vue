@@ -21,13 +21,13 @@
         </v-row>
       </v-card>
       <AddCollection v-else :close="closeAdd" />
-      <v-card height="103" outlined class="ma-3 mx-10 br-15">
+      <v-card height="103" outlined class="ma-3 mx-10 br-15" v-for="collection in collections" :key="collection.id">
         <v-row align="center" class="fill-height">
           <v-col cols="4">
             <v-row justify="start" align="center" class="fill-height mt-3 mr-5">
 
               <span class="mr-5 t14600">
-                گردن بند زمردی
+               {{collection.name}}
               </span>
 
             </v-row>
@@ -70,7 +70,17 @@ export default {
     closeAdd() {
       this.addCollection = false;
     }
-  }
+  },
+
+  computed:{
+    collections(){
+      return this.$store.getters['get_collections']
+    }
+  },
+
+  beforeMount() {
+    this.$store.dispatch('set_collections', '')
+  },
 }
 </script>
   

@@ -21,16 +21,16 @@
           </v-row>
         </v-card>
 
-        <v-card height="103" outlined class="ma-3 mx-10 br-15">
+        <v-card height="103" outlined class="ma-3 mx-10 br-15" v-for="category in categories" :key="category.id">
           <v-row align="center" class="fill-height">
             <v-col cols="4">
               <v-row justify="start" align="center" class="fill-height mt-3 mr-5">
                 <span>
-                  <v-img class="br-10" lazy-src="https://picsum.photos/id/11/10/6" height="72" width="72"
-                    src="https://picsum.photos/id/11/500/300"></v-img>
+                  <v-img class="br-10" :lazy-src="baseUrl + category.image" height="72" width="72"
+                    :src="baseUrl + category.image"></v-img>
                 </span>
                 <span class="mr-10 t14600">
-                  گردن بند زمردی
+                 {{category.name}}
                 </span>
               
               </v-row>
@@ -64,6 +64,18 @@
       return {
         message: ''
       }
+    },
+    computed:{
+      categories(){
+        return this.$store.getters['get_categories']
+      },
+
+      baseUrl(){
+        return process.env.baseUrl + '/media/'
+      }
+    },
+    beforeMount(){
+      this.$store.dispatch('set_categories' , '')
     }
   }
   </script>

@@ -24,14 +24,14 @@
 
             <AddBranche v-else :close="closeAdd" />
 
-            <v-card height="103" outlined class="ma-3 mx-10 br-15">
+            <v-card height="103" outlined class="ma-3 mx-10 br-15" v-for="branche  in branches" :key="branche.id">
                 <v-row align="center" class="fill-height">
                     <v-col cols="8">
                         <v-row justify="space-between" align="center" class="fill-height  mr-5">
-                            <div>
+                            <v-col cols="5">
                                 <div class="mb-5">
                                     <span class="t14600">
-                                        شعبه اوپال
+                                      {{branche.name}}
                                     </span>
                                 </div>
                                 <v-row align="center" class="pr-2">
@@ -39,11 +39,11 @@
                                         <img src="~/assets/img/map-pin.svg" alt="">
                                     </span>
                                     <span class="t14400">
-                                        سعادت آباد، خیابان علامه جنوبی، کوچه ۳۴ شرقی، پلاک ۲۷، واحد ۱۶
+                                      {{branche.address}}
                                     </span>
                                 </v-row>
-                            </div>
-                            <div>
+                            </v-col>
+                            <v-col cols="3">
                                 <v-row align="center" class="pr-2 pt-8">
                                     <span class="ml-2">
                                         <img src="~/assets/img/phone.svg" alt="">
@@ -52,17 +52,17 @@
                                         ۰۹۳۰۰۱۷۹۶۴۸
                                     </span>
                                 </v-row>
-                            </div>
-                            <div>
+                            </v-col>
+                            <v-col cols="2">
                                 <v-row align="center" class="pr-2 pt-8">
                                     <span class="ml-2">
                                         <img src="~/assets/img/GlobeHemisphereWest.svg" alt="">
                                     </span>
-                                    <span class="t14400 dana-fa">
-                                        تهران
+                                    <span class="t14400 dana-fa" v-if="branche.city">
+                                        {{branche.city.name}}
                                     </span>
                                 </v-row>
-                            </div>
+                            </v-col>
                             <!-- <span>
                   ۰۹/۲۵ - ۰۹/۳۰
                 </span> -->
@@ -102,7 +102,11 @@ export default {
             addBrache: false
         }
     },
-
+    computed:{
+        branches(){
+            return this.$store.getters['get_branches']
+        }
+    },
 
     methods: {
         closeAdd() {
@@ -112,6 +116,7 @@ export default {
 
     beforeMount() {
         this.$store.dispatch('public/set_provinces')
+        this.$store.dispatch('set_branches' , '')
     }
 }
 </script>

@@ -20,38 +20,29 @@
           </span>
         </v-row>
       </v-card>
-      <!-- <v-row class="ma-3">
-        <v-col cols="2" >
-          <v-text-field class="rounded-lg" v-model="message" label="Outlined" outlined clearable></v-text-field>
-        </v-col>
-        <v-col cols="2" >
-          <v-select class="rounded-lg" v-model="message" label="Outlined" outlined clearable></v-select>
-        </v-col>
-        <v-col cols="2" >
-          <v-btn color="#0A0A0A" height="44" width="136" class="mt-1 rounded-lg" >
-            <v-row justify="space-between px-2">
-              <span class="white--text">
-                فیلتر
-              </span>
-            </v-row>
-          </v-btn>
-        </v-col>
-      </v-row> -->
 
-      <v-card height="103" outlined class="ma-3 mx-10 br-15">
+
+      <v-card height="103" outlined class="ma-3 mx-10 br-15" v-for="product in products" :key="product.id">
         <v-row align="center" class="fill-height">
           <v-col cols="4">
             <v-row justify="space-between" align="center" class="fill-height mt-3 mr-5">
-              <span>
-                <v-img class="br-10" lazy-src="https://picsum.photos/id/11/10/6" height="72" width="72"
-                  src="https://picsum.photos/id/11/500/300"></v-img>
-              </span>
-              <span>
-                گردن بند زمردی
-              </span>
-              <span>
-                کالکشن اردیبهشت
-              </span>
+              <v-col cols="3">
+                <span>
+                  <v-img class="br-10" :lazy-src="imageCover(product)" height="72" width="72"
+                    :src="imageCover(product)"></v-img>
+                </span>
+              </v-col>
+              <v-col cols="6">
+                <span>
+                  {{product.name }}
+                </span>
+              </v-col>
+              <v-col cols="3">
+                <span v-if="product.collection">
+                  {{ product.collection.name }}
+                </span>
+              </v-col>
+
               <!-- <span>
                 ۰۹/۲۵ - ۰۹/۳۰
               </span> -->
@@ -86,6 +77,28 @@ export default {
     return {
       message: ''
     }
+  },
+
+  computed: {
+    products() {
+      return this.$store.getters['get_products']
+    },
+
+   
+  },
+
+  methods:{
+    imageCover(e){
+      try {
+        return process.env.baseUrl + '/media/'+ e.images[0].imageThumbnail.medium
+      } catch (error) {
+        return ''
+      }
+    }
+  },
+
+  beforeMount() {
+    this.$store.dispatch('set_products', '')
   }
 }
 </script>
