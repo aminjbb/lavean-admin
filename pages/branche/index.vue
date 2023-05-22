@@ -22,7 +22,7 @@
 
             </v-card>
 
-            <AddBranche v-else :close="closeAdd"/>
+            <AddBranche v-else :close="closeAdd" />
 
             <v-card height="103" outlined class="ma-3 mx-10 br-15">
                 <v-row align="center" class="fill-height">
@@ -93,21 +93,25 @@
 <script>
 import AddBranche from '~/components/Branche/AddBranche'
 export default {
-    components:{
+    components: {
         AddBranche
     },
     data() {
         return {
             message: '',
-            addBrache:false
+            addBrache: false
         }
     },
 
 
-    methods:{
-        closeAdd(){
-            this.addBrache =false;
+    methods: {
+        closeAdd() {
+            this.addBrache = false;
         }
+    },
+
+    beforeMount() {
+        this.$store.dispatch('public/set_provinces')
     }
 }
 </script>

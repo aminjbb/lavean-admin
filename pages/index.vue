@@ -14,7 +14,7 @@
             افزودن محصول جدید
           </span>
           <span>
-            <v-btn icon>
+            <v-btn to="/create-product" icon>
               <img src="~/assets/img/PlusCircle.svg" alt="">
             </v-btn>
           </span>

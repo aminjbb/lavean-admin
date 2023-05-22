@@ -1,15 +1,14 @@
 <template>
     <div>
         <v-row justify="center" class="mt-15 pt-10">
-            <v-col cols="4">
+            <v-col cols="12">
                 <v-row justify="center">
-                    <div class="select-image-box">
+                    <div class="select-image-box-blog">
                         <label class="label">
                             <div class="text-center">
-                                <img :src="pre.base64" v-if="pre.base64" width="394" height="394" alt=""
-                                    class="mt-17 br-25">
-                                <img src="~/assets/img/ImageSquare.png" v-else alt="">
-                                <div class="text-center" v-if="!pre.base64">
+
+                                <img src="~/assets/img/ImageSquare.png" alt="">
+                                <div class="text-center">
                                     <span class="t14400">محل بارگذاری تصویر محصول</span>
                                 </div>
                                 <v-file-input class="default-file-input" v-model="image" accept="image/*"
@@ -19,62 +18,48 @@
 
                     </div>
 
-                    <div class="mx-3">
-                        <div class="selected-image-box">
-                            <img :src="main[0].base64" v-if="main[0]" width="117px" height="117px" alt="" class="br-15" />
-                        </div>
-                        <div class="selected-image-box mt-5">
-                            <img :src="main[0].base64" v-if="main[1]" width="117px" height="117px" alt="" class="br-15" />
-                        </div>
-                        <div class="selected-image-box mt-5">
-                            <img :src="main[0].base64" v-if="main[2]" width="117px" height="117px" alt="" class="br-15" />
-                        </div>
-                    </div>
+
                 </v-row>
 
-                <div class="mx-12 ml-14 mt-8">
-                    <v-text-field v-model="pre.name" color="black" label="Alternative name" class="br-10" filled
-                        dense></v-text-field>
-                </div>
-                <div class="mx-12 ml-14">
-                    <v-textarea v-model="pre.dec" color="black" label="Alternative Caption" class="br-10" filled
-                        dense></v-textarea>
-                </div>
-                <div class="mr-8">
-                    <v-btn @click="saveImage()" color="DeepGreen" class="br-10 mr-5" width="136" height="44">
-                        <span class="t14400 white--text">
-                            بارگذاری عکس
-                        </span>
-                    </v-btn>
-                </div>
-            </v-col>
-            <v-col cols="4">
-                <v-from v-model="valid" ref="product">
+                <v-row justify="center" class="mt-15">
                     <div>
-                        <div class="pr-12 "><span class="t18400 black--text">نام محصول</span></div>
-                        <div class="mx-12 ml-14 mt-3">
-                            <v-text-field v-model="product.name" :rules="rule" color="black" label="نام محصول" class="br-10"
-                                filled dense></v-text-field>
-                        </div>
-                        <div class="pr-12 "><span class="t18400 black--text">انتخاب دسته بندی</span></div>
-                        <div class="mx-12 ml-14 mt-3">
-                            <v-select v-model="product.category" :rules="rule" color="black" label="دسته بندی" class="br-10"
-                                filled dense></v-select>
-                        </div>
-                        <div class="pr-12 "><span class="t18400 black--text">انتخاب کالکشن</span></div>
-                        <div class="mx-12 ml-14 mt-3">
-                            <v-select v-model="product.collection" color="black" label="کالکشن" class="br-10" filled
-                                dense></v-select>
-                        </div>
-                        <div class="mx-12 ml-14 ">
-                            <v-text-field v-model="product.metaTitle" :rules="rule" color="black" label="Meta title"
-                                class="br-10" filled dense></v-text-field>
-                        </div>
-                        <div class="mx-12 ml-14">
-                            <v-textarea v-model="product.metaDescription" :rules="rule" color="black"
-                                label="Meta Description" class="br-10" filled dense></v-textarea>
-                        </div>
+                        <v-btn color="DeepGreen" class="br-10 mr-5" width="136" height="44">
+                            <span class="t14400 white--text">
+                                بارگذاری عکس
+                            </span>
+                        </v-btn>
                     </div>
+                </v-row>
+            </v-col>
+            <v-col cols="8">
+                <v-from v-model="valid" ref="product">
+                    <v-row justify="center">
+                        <v-col cols="3" class="px-0 ma-0">
+                            <div class="pr-12 "><span class="t18400 black--text">نام مطلب</span></div>
+                            <div class="mx-12 ml-1 mt-3">
+                                <v-text-field color="black" label="نام مطلب" class="br-10" filled dense></v-text-field>
+                            </div>
+                        </v-col>
+                        <!-- <v-col cols="3" class="px-0">
+                        <div class="pr-12 "><span class="t18400 black--text">نویسنده</span></div>
+                        <div class="mx-12 ml-1 mt-3">
+                            <v-select color="black" label="نویسنده" class="br-10" filled dense></v-select>
+                        </div>
+                    </v-col>
+                    <v-col cols="3" class="px-0">
+                        <div class="pr-12 "><span class="t18400 black--text">تاریخ</span></div>
+                        <div class="mx-12 ml-1 mt-3">
+                            <v-select color="black" label="کالکشن" class="br-10" filled dense></v-select>
+                        </div>
+                    </v-col> -->
+                        <v-col cols="3" class="px-0">
+                            <div class="pr-12 "><span class="t18400 black--text">دسته بندی</span></div>
+                            <div class="mx-12 ml-1 mt-3">
+                                <v-select color="black" label="دسته بندی" class="br-10" filled dense></v-select>
+                            </div>
+                        </v-col>
+
+                    </v-row>
                 </v-from>
             </v-col>
 
@@ -157,9 +142,9 @@
                 <div class="box-card mr-10 mt-15 py-5 pt-8">
                     <v-row justify="space-between" class="px-8 pb-2">
                         <FAQA />
-                       
+
                         <span class="t18400 mt-2">
-                           FAQA
+                            FAQA
                         </span>
 
                     </v-row>
@@ -197,63 +182,11 @@
 </template>
 
 <script>
-import FAQA from '~/components/Product/FAQA.vue'
 export default {
-    components:{
-        FAQA
-    },
     data() {
         return {
-            image: '',
-            pre: {
-                image: '',
-                base64: '',
-                name: '',
-                desc: ''
-            },
-            main: [],
-            valid: true,
-            rule: [v => !!v || 'این فیلد الزامی است'],
-            product: {
-                name: '',
-                category: '',
-                collection: '',
-                metaTitle: '',
-                metaDescription: ''
-            }
+            image: ''
         }
-    },
-
-    methods: {
-        imageToBase64() {
-            this.pre.image = this.image
-            var imageFile = this.image
-            var fileReader = new FileReader();
-            fileReader.onload = () => {
-                const srcData = fileReader.result;
-                // console.log('base64:', srcData)
-                this.pre.base64 = srcData
-            };
-            fileReader.readAsDataURL(imageFile);
-        },
-        saveImage() {
-            this.main.push(this.pre)
-            this.pre = {
-                image: '',
-                base64: '',
-                name: '',
-                desc: ''
-            }
-        }
-    },
-
-    watch: {
-        image(val) {
-            console.log(val);
-            this.imageToBase64()
-        },
-
-
     }
 }
 </script>

@@ -1198,9 +1198,14 @@ header {
   border-radius: 42px !important;
 }
 
+.br-25 {
+  border-radius: 25px !important;
+}
+
 .br-20 {
   border-radius: 20px !important;
 }
+
 .br-15 {
   border-radius: 15px !important;
 }
@@ -1307,4 +1312,31 @@ header {
   height: 44px;
   background: #F5F5F5;
   border-radius: 10px;
+}
+
+.login-avatar-box {
+  margin-top: -75px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mt-17 {
+  margin-top: 74px !important;
+}
+
+.select-image-box-blog {
+  width: 1112px;
+  height: 394px;
+  background: #F5F5F5;
+  border: 1px solid #EDEDED;
+  border-radius: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
