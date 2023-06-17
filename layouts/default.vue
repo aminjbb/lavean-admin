@@ -8,26 +8,26 @@
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
      
-      <v-btn
+      <!-- <v-btn
         icon
         @click.stop="clipped = !clipped"
       >
         <v-icon>mdi-application</v-icon>
-      </v-btn>
-      <v-btn
+      </v-btn> -->
+      <!-- <v-btn
         icon
         @click.stop="fixed = !fixed"
       >
         <v-icon>mdi-minus</v-icon>
-      </v-btn>
+      </v-btn> -->
     
       <v-spacer />
-      <v-btn
+      <!-- <v-btn
         icon
         @click.stop="rightDrawer = !rightDrawer"
       >
         <v-icon>mdi-menu</v-icon>
-      </v-btn>
+      </v-btn> -->
     </v-app-bar>
     <v-main>
       <Nuxt />
@@ -57,9 +57,9 @@
           exact
           class="ma-5"
         >
-          <v-list-item-action>
+          <!-- <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
+          </v-list-item-action> -->
           <v-list-item-content>
             <v-list-item-title v-text="item.title" />
           </v-list-item-content>
@@ -92,58 +92,54 @@ export default {
         {
           icon: 'mdi-chart-bubble',
           title: 'مدیریت شعبه',
-          to: '/inspire'
+          to: '/branche'
         },
         {
           icon: 'mdi-chart-bubble',
           title: 'مدیریت دسته بندی',
-          to: '/inspire'
+          to: '/category'
         },
         {
           icon: 'mdi-chart-bubble',
           title: 'مدیریت کالکشن',
-          to: '/inspire'
+          to: '/collection'
         },
         {
           icon: 'mdi-chart-bubble',
           title: 'مدیریت کوپن تخفیف',
-          to: '/inspire'
+          to: '/kopon'
         },
         {
           icon: 'mdi-chart-bubble',
           title: 'مدیریت فروش ویژه',
-          to: '/inspire'
+          to: '/special-sales'
         },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'مدیریت قیمت گذاری',
-          to: '/inspire'
-        },
+
         {
           icon: 'mdi-chart-bubble',
           title: 'مدیریت سفارشات',
-          to: '/inspire'
+          to: '/orders'
         },
         {
           icon: 'mdi-chart-bubble',
           title: 'مدیریت بلاگ',
-          to: '/inspire'
+          to: '/blog'
         },
         {
           icon: 'mdi-chart-bubble',
           title: 'مدیریت ادمین ها',
-          to: '/inspire'
+          to: '/admins'
         },
         {
           icon: 'mdi-chart-bubble',
           title: 'مدیریت کاربران',
-          to: '/inspire'
+          to: '/user'
         },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'خروج',
-          to: '/inspire'
-        },
+        // {
+        //   icon: 'mdi-chart-bubble',
+        //   title: 'خروج',
+        //   to: '/inspire'
+        // },
         
       ],
       miniVariant: false,
