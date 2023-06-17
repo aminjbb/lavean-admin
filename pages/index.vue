@@ -45,7 +45,7 @@
 
               <!-- <span>
                 ۰۹/۲۵ - ۰۹/۳۰
-              </span> -->
+              </span> --> 
             </v-row>
           </v-col>
           <v-col cols="8">

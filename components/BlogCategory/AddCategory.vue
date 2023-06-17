@@ -5,10 +5,10 @@
                 <v-col cols="2" class="pr-0">
                     <div class="pr-2 mb-5">
                         <span class="t18400 black--text">
-                            نام کالکشن
+                            نام دسته بندی
                         </span>
                     </div>
-                    <v-text-field :rules="rule" v-model="name" color="black" label="نام کالکشن" class="br-10" filled
+                    <v-text-field :rules="rule" v-model="name" color="black" label="نام " class="br-10" filled
                         dense></v-text-field>
                 </v-col>
             </v-row></v-form>
@@ -51,30 +51,30 @@ export default {
             this.$refs.addCollection.validate();
             setTimeout(() => {
                 if (this.valid) {
-                    this.createCollection()
+                    this.createCategory()
                 }
             }, 200);
         },
-        resetForm(){
+        resetForm() {
             this.$refs.addCollection.reset()
         },
-        createCollection() {
+        createCategory() {
             this.loading = true;
             axios({
                 method: 'post',
-                url: process.env.apiUrl + 'collection/admin/',
+                url: process.env.apiUrl + 'blog/category/admin/',
                 headers: {
                     Authorization: "Bearer " + this.$cookies.get("token"),
                 },
                 data: {
                     name: this.name,
-                  
+
                 }
             })
                 .then(response => {
                     this.loading = false;
                     this.resetForm()
-                    this.$store.dispatch('set_collections', '')
+                    this.$store.dispatch('set_blogCategorys', '')
                 })
                 .catch(err => {
                     this.loading = false;

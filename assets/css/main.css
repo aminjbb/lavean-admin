@@ -661,7 +661,7 @@ ol li {
 }
 
 .leaf_map {
-  height: calc(100vh - 136px);
+  height: calc(100vh - 535px);
 }
 
 .my_location-btn {
@@ -687,9 +687,7 @@ ol li {
   bottom: 15px !important;
 }
 
-.leaf_map {
-  height: calc(100vh - 136px);
-}
+
 
 
 .marker_center {

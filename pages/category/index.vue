@@ -14,7 +14,7 @@
                 افزودن دسته‌بندی جدید
             </span>
             <span>
-              <v-btn to="/category/add  " icon>
+              <v-btn to="/category/add" icon>
                 <img src="~/assets/img/PlusCircle.svg" alt="">
               </v-btn>
             </span>

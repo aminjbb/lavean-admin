@@ -21,45 +21,45 @@
                 </v-row>
             </v-card>
 
-            <v-card height="103" outlined class="ma-3 mx-10 br-15">
+            <v-card height="103" outlined class="ma-3 mx-10 br-15" v-for="order in orders" :key="order.id">
                 <v-row align="center" class="fill-height">
                     <v-col cols="8">
                         <v-row justify="space-between" align="center" class="fill-height  mr-5">
-                            <div class="pt-3">
+                            <v-col cols="2" class="pt-3">
                                 <span class="t14600">
-                                    گردن بند زمرد سبز
+                                  {{order.details[0].variantName}}
                                 </span>
-                            </div>
-                            <div  class="pt-3">
+                            </v-col>
+                            <v-col cols="2" class="pt-3">
                                 <span class="t14600">
-                                    گلزار حیدری
+                                   {{orderClientName(order)}}
                                 </span>
-                            </div>
-                            <div>
+                            </v-col>
+                            <v-col cols="2">
                                 <v-row align="center" class="pr-2 pt-8">
                                     <span class="ml-2">
                                         <img src="~/assets/img/phone.svg" alt="">
                                     </span>
                                     <span class="t14400 dana-fa">
-                                        ۰۹۳۰۰۱۷۹۶۴۸
+                                        {{orderClientMobile(order)}}
                                     </span>
                                 </v-row>
-                            </div>
-                            <div>
+                            </v-col>
+                            <v-col cols="2">
                                 <v-row align="center" class="pr-2 pt-8">
                                     <span class="ml-2">
                                         <img src="~/assets/img/map-pin.svg" alt="">
                                     </span>
                                     <span class="t14400 dana-fa">
-                                        تحویل حضوری
+                                        {{order.delivery.name}}
                                     </span>
                                 </v-row>
-                            </div>
-                            <div class="pt-6">
-                              <div class="status-box-success text-center pt-2">
-                                  <span class="t14400 DeepGreen--text">ثبت شده</span>
-                              </div>
-                            </div>
+                            </v-col>
+                            <v-col cols="2" class="pt-6">
+                                <div class="status-box-success text-center pt-2" v-if="order.currentStatus">
+                                    <span class="t14400 DeepGreen--text" >{{order.currentStatus.name}}</span>
+                                </div>
+                            </v-col>
 
                         </v-row>
                     </v-col>
@@ -92,7 +92,32 @@ export default {
         return {
             message: ''
         }
-    }
+    },
+
+    computed: {
+        orders() {
+            return this.$store.getters['get_orders']
+        }
+    },
+
+    methods:{
+        orderClientName(e){
+            try {
+                return e.customer.client.user.firstName
+            } catch (error) {
+                return ''
+            }      
+        },
+        orderClientMobile(e){
+            try {
+                return e.customer.client.mobile
+            } catch (error) {
+                return ''
+            }      
+        }
+    },
+
+    beforeMount() { this.$store.dispatch('set_orders', '') }
 }
 </script>
   

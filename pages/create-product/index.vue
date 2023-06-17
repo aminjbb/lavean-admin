@@ -58,13 +58,13 @@
                         </div>
                         <div class="pr-12 "><span class="t18400 black--text">انتخاب دسته بندی</span></div>
                         <div class="mx-12 ml-14 mt-3">
-                            <v-select v-model="product.category" :rules="rule" color="black" label="دسته بندی" class="br-10"
-                                filled dense></v-select>
+                            <v-select :items="categories" v-model="product.category" :rules="rule" color="black"
+                                label="دسته بندی" class="br-10" filled dense></v-select>
                         </div>
                         <div class="pr-12 "><span class="t18400 black--text">انتخاب کالکشن</span></div>
                         <div class="mx-12 ml-14 mt-3">
-                            <v-select v-model="product.collection" color="black" label="کالکشن" class="br-10" filled
-                                dense></v-select>
+                            <v-select :items="collections" v-model="product.collection" color="black" label="کالکشن"
+                                class="br-10" filled dense></v-select>
                         </div>
                         <div class="mx-12 ml-14 ">
                             <v-text-field v-model="product.metaTitle" :rules="rule" color="black" label="Meta title"
@@ -157,9 +157,9 @@
                 <div class="box-card mr-10 mt-15 py-5 pt-8">
                     <v-row justify="space-between" class="px-8 pb-2">
                         <FAQA />
-                       
+
                         <span class="t18400 mt-2">
-                           FAQA
+                            FAQA
                         </span>
 
                     </v-row>
@@ -199,7 +199,7 @@
 <script>
 import FAQA from '~/components/Product/FAQA.vue'
 export default {
-    components:{
+    components: {
         FAQA
     },
     data() {
@@ -254,6 +254,36 @@ export default {
         },
 
 
+    },
+
+    beforeMount() {
+        this.$store.dispatch('set_categories', '')
+        this.$store.dispatch('set_collections', '')
+    },
+
+    computed: {
+        categories() {
+            var cats = []
+            this.$store.getters['get_categories'].forEach(element => {
+                var form = {
+                    text: element.name,
+                    value: element.id
+                }
+                cats.push(form)
+            });
+            return cats
+        },
+        collections() {
+            var collections = []
+            this.$store.getters['get_collections'].forEach(element => {
+                var form = {
+                    text: element.name,
+                    value: element.id
+                }
+                collections.push(form)
+            });
+            return collections
+        }
     }
 }
 </script>

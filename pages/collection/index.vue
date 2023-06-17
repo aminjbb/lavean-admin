@@ -8,26 +8,27 @@
           </span>
         </v-row>
       </v-card>
-      <v-card v-if="!addCollection" height="103" class="mx-10 mt-5 br-15" outlined>
+      <v-card v-if="!addCollection && !editCollection" height="103" class="mx-10 mt-5 br-15" outlined>
         <v-row justify="space-between" class="pa-11">
           <span class="mt-2 t14600">
             افزودن کالکشن جدید
           </span>
           <span>
-            <v-btn @click="addCollection = true" icon>
+            <v-btn @click="addCollection = true; editCollection = false" icon>
               <img src="~/assets/img/PlusCircle.svg" alt="">
             </v-btn>
           </span>
         </v-row>
       </v-card>
-      <AddCollection v-else :close="closeAdd" />
+      <AddCollection v-else-if="addCollection && !editCollection" :close="closeAdd" />
+      <EditCollection v-else-if="!addCollection && editCollection" :close="closeEdit" :collectionName="name" :id="collectionId" :inEdit="editCollection"/>
       <v-card height="103" outlined class="ma-3 mx-10 br-15" v-for="collection in collections" :key="collection.id">
         <v-row align="center" class="fill-height">
           <v-col cols="4">
             <v-row justify="start" align="center" class="fill-height mt-3 mr-5">
 
               <span class="mr-5 t14600">
-               {{collection.name}}
+                {{ collection.name }}
               </span>
 
             </v-row>
@@ -36,7 +37,7 @@
             <v-row justify="end" align="center" class="fill-height mt-3 mr-5 pl-10">
 
               <span>
-                <v-btn icon>
+                <v-btn @click="collectionEdit(collection.name , collection.id)" icon>
                   <img src="~/assets/img/edit.svg" alt="">
                 </v-btn>
               </span>
@@ -56,24 +57,38 @@
   
 <script>
 import AddCollection from '~/components/Collection/AddCollection'
+import EditCollection from '~/components/Collection/EditCollection'
 export default {
   components: {
-    AddCollection
+    AddCollection,
+    EditCollection
   },
   data() {
     return {
       message: '',
-      addCollection: false
+      name: '',
+      collectionId:'',
+      addCollection: false,
+      editCollection: false
     }
   },
   methods: {
     closeAdd() {
       this.addCollection = false;
+    },
+    closeEdit() {
+      this.editCollection = false;
+    },
+    collectionEdit(name , id) {
+      this.name = name
+      this.collectionId = id
+      this.editCollection = true;
+      this.addCollection = false
     }
   },
 
-  computed:{
-    collections(){
+  computed: {
+    collections() {
       return this.$store.getters['get_collections']
     }
   },

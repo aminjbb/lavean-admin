@@ -8,7 +8,7 @@
                             نام کالکشن
                         </span>
                     </div>
-                    <v-text-field :rules="rule" v-model="name" color="black" label="نام کالکشن" class="br-10" filled
+                    <v-text-field :rules="rule" v-model="collectionName" color="black" label="نام کالکشن" class="br-10" filled
                         dense></v-text-field>
                 </v-col>
             </v-row></v-form>
@@ -35,14 +35,23 @@ import axios from 'axios'
 export default {
     props: {
         close: { type: Function },
+        collectionName: '',
+        id: '',
+        inEdit: false
     },
 
     data() {
         return {
-            name: '',
+            // name: '',
             rule: [v => !!v || 'این فیلد الزامی است'],
             loading: false,
             valid: true
+        }
+    },
+
+    watch: {
+        collectionName(val) {
+            console.log(val);
         }
     },
 
@@ -55,20 +64,21 @@ export default {
                 }
             }, 200);
         },
-        resetForm(){
+        resetForm() {
             this.$refs.addCollection.reset()
+            this.close()
         },
         createCollection() {
             this.loading = true;
             axios({
-                method: 'post',
-                url: process.env.apiUrl + 'collection/admin/',
+                method: 'put',
+                url: process.env.apiUrl + 'collection/admin/'+this.id +'/',
                 headers: {
                     Authorization: "Bearer " + this.$cookies.get("token"),
                 },
                 data: {
-                    name: this.name,
-                  
+                    name: this.collectionName,
+
                 }
             })
                 .then(response => {
@@ -80,8 +90,7 @@ export default {
                     this.loading = false;
                 })
         }
-    }
-
+    },
 
 }
 </script>

@@ -151,6 +151,11 @@ export default {
       rightDrawer: false,
       title: 'Vuetify.js'
     }
+  },
+  beforeMount(){
+    if (!this.$cookies.get('token')) {
+      this.$router.push('/login')
+    }
   }
 }
 </script>

@@ -8,10 +8,18 @@ export const state = () => ({
     collections: [],
     categories: [],
     products: [],
+    blogCategorys: [],
+    orders: []
 
 })
 
 export const mutations = {
+    set_orders(state, obj) {
+        state.orders = obj
+    },
+    set_blogCategorys(state, obj) {
+        state.blogCategorys = obj
+    },
     set_products(state, obj) {
         state.products = obj
     },
@@ -32,6 +40,67 @@ export const mutations = {
 
 
 export const actions = {
+    async set_orders({ commit }, form) {
+        const requestHeaders = {
+            Authorization: "Bearer " + cookies.get("token"),
+        };
+        const query = gql`
+        query{
+            adminOrders(limit:20  `+ form + `){
+                results{
+                    id,
+                    finalPrice,
+                    delivery{
+                        id,
+                        name
+                    }
+                    address{
+                        addressDetail
+                    }
+                    createdAt,
+                    currentStatus{
+                        name
+                    },
+                    details{
+                        variantName,
+                        variantUnitPriceWithoutDiscount,
+                        variantUnitPrice
+                    }
+                    payments{
+                        id,
+                        amount,
+                        paidAt
+                    }
+                    customer{
+                        client{
+                            mobile
+                            user{
+                                firstName
+                            }
+                        }
+                    }
+                }
+            }
+          } `;
+        const obj = await this.$graphql.default.request(query, {}, requestHeaders);
+        commit('set_orders', obj.adminOrders.results);
+    },
+    async set_blogCategorys({ commit }, form) {
+        const requestHeaders = {
+            Authorization: "Bearer " + cookies.get("token"),
+        };
+        const query = gql`
+        query{
+            adminBlogCategories(limit:200  `+ form + `){
+                results{
+                    id,
+                    name,
+                }
+            }
+          } `;
+        const obj = await this.$graphql.default.request(query, {}, requestHeaders);
+        commit('set_blogCategorys', obj.adminBlogCategories.results);
+    },
     async set_products({ commit }, form) {
         const requestHeaders = {
             Authorization: "Bearer " + cookies.get("token"),
@@ -118,6 +187,12 @@ export const actions = {
 
 
 export const getters = {
+    get_orders(state) {
+        return state.orders
+    },
+    get_blogCategorys(state) {
+        return state.blogCategorys
+    },
     get_products(state) {
         return state.products
     },
