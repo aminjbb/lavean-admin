@@ -192,7 +192,7 @@
 </template>
 
 <script>
-import TinymceVue from "~/components/Public/TinymceVue";
+import TinymceVue from "~/components/public/TinymceVue";
 import axios from 'axios'
 export default {
     data() {
