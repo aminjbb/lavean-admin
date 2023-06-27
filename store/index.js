@@ -179,8 +179,15 @@ export const actions = {
                 results{
                     id,
                     name,
+                    lat,
+                    long,
+
                     address,
                     city{
+                        province{
+                            id,
+                        },
+                        id
                         name
                     }
                 }
