@@ -34,7 +34,7 @@
               </v-col>
               <v-col cols="6">
                 <span>
-                  {{product.name }}
+                  {{ product.name }}
                 </span>
               </v-col>
               <v-col cols="3">
@@ -45,19 +45,19 @@
 
               <!-- <span>
                 ۰۹/۲۵ - ۰۹/۳۰
-              </span> --> 
+              </span> -->
             </v-row>
           </v-col>
           <v-col cols="8">
             <v-row justify="end" align="center" class="fill-height mt-3 mr-5 pl-10">
 
               <span>
-                <v-btn icon>
+                <v-btn @click="editProduct(product)" icon>
                   <img src="~/assets/img/edit.svg" alt="">
                 </v-btn>
               </span>
               <span class="mr-5">
-                <v-btn icon>
+                <v-btn @click="deleteProduct(product.id)" icon>
                   <img src="~/assets/img/trash-2.svg" alt="">
                 </v-btn>
               </span>
@@ -71,6 +71,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'IndexPage',
   data() {
@@ -84,16 +85,36 @@ export default {
       return this.$store.getters['get_products']
     },
 
-   
+
   },
 
-  methods:{
-    imageCover(e){
+  methods: {
+    editProduct(obj) {
+      this.$store.commit('public/set_producEdit', obj)
+      this.$router.push('create-product/' + obj.id)
+    },
+    imageCover(e) {
       try {
-        return process.env.baseUrl + '/media/'+ e.images[0].imageThumbnail.medium
+        return process.env.baseUrl + '/media/' + e.images[0].imageThumbnail.medium
       } catch (error) {
         return ''
       }
+    },
+    deleteProduct(id) {
+      axios({
+        method: 'delete',
+        url: process.env.apiUrl + 'product/admin/' + id + '/',
+        headers: {
+          Authorization: "Bearer " + this.$cookies.get("token"),
+        },
+
+      })
+        .then(response => {
+          this.$store.dispatch('set_products', '')
+        })
+        .catch(err => {
+          this.loading = false;
+        })
     }
   },
 

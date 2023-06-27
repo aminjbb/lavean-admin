@@ -111,11 +111,18 @@ export const actions = {
                 results{
                     id,
                     name,
+                    metaDescription,
+                    metaTitle,
+                    canonical,
+                    schema,
+                    url,
                     collection{
-                        name
+                        name,
+                        id
                     }
                     mainCategory{
-                        name
+                        name,
+                        id
                     }
                     images{
                         imageThumbnail{

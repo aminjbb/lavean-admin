@@ -289,8 +289,8 @@ export default {
         createProduct() {
             this.loading = true;
             axios({
-                method: 'post',
-                url: process.env.apiUrl + 'product/admin/',
+                method: 'put',
+                url: process.env.apiUrl + 'product/admin/' + this.$store.getters['public/get_producEdit'].id + '/',
                 headers: {
                     Authorization: "Bearer " + this.$cookies.get("token"),
                     // "Content-Type": "multipart/form-data",
@@ -306,10 +306,10 @@ export default {
             })
                 .then(response => {
                     this.loading = false;
-                    this.categoryAssignment( response.data.id)
-                    this.main.forEach(element => {
-                        this.uploadImage(element, response.data.id)
-                    });
+                    this.categoryAssignment(response.data.id)
+                    // this.main.forEach(element => {
+                    //     this.uploadImage(element, response.data.id)
+                    // });
                     this.$router.push('/')
                     this.$store.dispatch('set_products', '')
                 })
@@ -360,6 +360,26 @@ export default {
                 .catch(err => {
                     this.loading = false;
                 })
+        },
+
+        setForm() {
+            try {
+                var product = this.$store.getters['public/get_producEdit']
+                this.product.name = product.name
+                this.product.metaTitle = product.metaTitle
+                this.product.metaDescription = product.metaDescription
+                this.product.canonical = product.canonical
+                this.product.url = product.url
+
+                if (product.mainCategory) {
+                    this.product.category = product.mainCategory.id
+                }
+                if (product.collection) {
+                    this.product.collection = product.collection.id
+                }
+            } catch (error) {
+
+            }
         }
 
     },
@@ -376,6 +396,10 @@ export default {
     beforeMount() {
         this.$store.dispatch('set_categories', '')
         this.$store.dispatch('set_collections', '')
+    },
+
+    mounted() {
+        this.setForm()
     },
 
     computed: {

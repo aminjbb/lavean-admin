@@ -6,10 +6,15 @@ export const strict = false
 export const state = () => ({
     provinces: [],
     citys: [],
+    producEdit:''
 
 })
 
 export const mutations = {
+
+    set_producEdit(state , obj){
+        state.producEdit = obj
+    },
 
     set_citys(state, obj) {
         state.citys = obj
@@ -59,6 +64,10 @@ export const actions = {
 
 
 export const getters = {
+
+    get_producEdit(state ){
+       return state.producEdit
+    },
 
     get_citys(state) {
         return state.citys
