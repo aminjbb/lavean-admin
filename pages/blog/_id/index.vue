@@ -8,11 +8,15 @@
                             <label class="label">
                                 <div class="text-center">
 
-                                    <img :src="pre.base64" v-if="pre.base64" width="394" height="394" alt=""
+                                    <img :src="baseUrl + preImage" v-if="preImage && !pre.base64" width="394" height="394" alt=""
                                         class="mt-17 br-25">
-                                    <img src="~/assets/img/ImageSquare.png" v-else alt="">
-                                    <div class="text-center" v-if="!pre.base64">
-                                        <span class="t14400">محل بارگذاری تصویر محصول</span>
+                                    <div v-else>
+                                        <img :src="pre.base64" v-if="pre.base64" width="394" height="394" alt=""
+                                            class="mt-17 br-25">
+                                        <img src="~/assets/img/ImageSquare.png" v-else alt="">
+                                        <div class="text-center" v-if="!pre.base64">
+                                            <span class="t14400">محل بارگذاری تصویر محصول</span>
+                                        </div>
                                     </div>
                                     <v-file-input class="default-file-input" v-model="image" accept="image/*"
                                         label="File input"></v-file-input>
@@ -144,7 +148,7 @@
                         </v-row>
                     </div>
 
-                    <div class="box-card mr-10 mt-15 py-5 pt-8">
+                    <!-- <div class="box-card mr-10 mt-15 py-5 pt-8">
                         <v-row justify="space-between" class="px-8 pb-2">
                             <FAQA />
 
@@ -154,7 +158,7 @@
 
                         </v-row>
 
-                    </div>
+                    </div> -->
                 </v-col>
                 <v-col cols="4">
                     <div class="box-card mr-10 py-4 pt-8">
@@ -213,6 +217,7 @@ import axios from 'axios'
 export default {
     data() {
         return {
+            preImage: '',
             image: '',
             load: false,
             loading: false,
@@ -234,11 +239,23 @@ export default {
                 metDescription: '',
                 canonical: '',
                 longDescription: '',
+                url: ''
             }
         }
     },
 
     methods: {
+        setForm(obj) {
+            this.form.mainTitle = obj.mainTitle
+            this.form.metDescription = obj.metaDescription
+            this.form.canonical = obj.canonical
+            this.preImage = obj.image
+            this.form.metaTitle = obj.metaTitle
+            this.form.url = obj.url
+            this.form.longDescription = obj.description
+
+            this.load = true
+        },
         imageToBase64() {
             this.pre.image = this.image
             var imageFile = this.image
@@ -260,27 +277,27 @@ export default {
         },
         createBlog() {
             this.loading = true;
+            var formdate = new FormData();
+            formdate.append('main_title' ,this.form.mainTitle)
+            formdate.append('meta_description' ,this.form.metDescription)
+            formdate.append('meta_title' ,this.form.metaTitle)
+            formdate.append('description' ,this.form.longDescription)
+            formdate.append('category' ,this.form.category)
+            formdate.append('canonical' ,this.form.canonical)
+            formdate.append('url' ,this.form.url)
+            if (this.image)   formdate.append('image' ,this.image)
             axios({
-                method: 'post',
-                url: process.env.apiUrl + 'blog/post/admin/',
+                method: 'put',
+                url: process.env.apiUrl + 'blog/post/admin/' + this.$route.params.id +'/',
                 headers: {
                     Authorization: "Bearer " + this.$cookies.get("token"),
                     "Content-Type": "multipart/form-data",
                 },
-                data: {
-                    main_title: this.form.mainTitle,
-                    meta_description: this.form.metDescription,
-                    meta_title: this.form.metaTitle,
-                    description: this.form.longDescription,
-                    image: this.image,
-                    category: this.form.category,
-                    canonical: this.form.canonical,
-                    url: this.form.url,
-                }
+                data: formdate
             })
                 .then(response => {
                     this.loading = false;
-                   
+
                     this.$router.push('/blog')
                     this.$store.dispatch('set_blogCategorys', '')
                 })
@@ -300,7 +317,10 @@ export default {
             this.imageToBase64()
         },
 
-
+        blog(val) {
+            console.log(val);
+            this.setForm(val)
+        }
     },
 
     computed: {
@@ -315,16 +335,23 @@ export default {
             } catch (error) {
                 return []
             }
+        },
+        blog() {
+            try {
+                return this.$store.getters['get_blog']
+            } catch (error) {
+                return ''
+            }
+        },
+
+        baseUrl() {
+            return process.env.baseUrl + '/media/'
         }
     },
     beforeMount() {
         this.$store.dispatch('set_blogCategorys', '')
+        this.$store.dispatch('set_blog', this.$route.params.id)
     },
 
-    mounted() {
-        setTimeout(() => {
-            this.load = true
-        }, 1000);
-    }
 }
 </script>

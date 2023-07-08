@@ -8,39 +8,27 @@
                     </span>
                 </v-row>
             </v-card>
-            <v-card height="103" class="mx-10 mt-5 br-15" outlined>
-                <v-row justify="space-between" class="pa-11">
-                    <span class="mt-2 t14600">
-                        افزودن کاربر جدید
-                    </span>
-                    <span>
-                        <v-btn icon>
-                            <img src="~/assets/img/PlusCircle.svg" alt="">
-                        </v-btn>
-                    </span>
-                </v-row>
-            </v-card>
 
-            <v-card height="103" outlined class="ma-3 mx-10 br-15">
+            <v-card height="103" outlined class="ma-3 mx-10 br-15" v-for="(user , index) in useres" :key="index">
                 <v-row align="center" class="fill-height">
                     <v-col cols="5">
                         <v-row justify="space-between" align="center" class="fill-height  mr-5">
-                            <div class="pt-3">
+                            <v-col cols="2" class="pt-8">
                                 <span class="t14600">
-                                    گلزار حیدری
+                                   {{customerName(user)}}
                                 </span>
-                            </div>
-                            <div>
+                            </v-col>
+                            <v-col cols="3">
                                 <v-row align="center" class="pr-2 pt-8">
                                     <span class="ml-2">
                                         <img src="~/assets/img/phone.svg" alt="">
                                     </span>
                                     <span class="t14400 dana-fa">
-                                        ۰۹۳۰۰۱۷۹۶۴۸
+                                        {{customerMobile(user)}}
                                     </span>
                                 </v-row>
-                            </div>
-                            <div>
+                            </v-col>
+                            <!-- <div>
                                 <v-row align="center" class="pr-2 pt-8">
                                     <span class="ml-2">
                                         <img src="~/assets/img/userDate.svg" alt="">
@@ -49,7 +37,7 @@
                                         ۱۴۰۱/۱۲/۲۴
                                     </span>
                                 </v-row>
-                            </div>
+                            </div> -->
 
                         </v-row>
                     </v-col>
@@ -57,7 +45,7 @@
                         <v-row justify="end" align="center" class="fill-height mt-3 mr-5 pl-10">
 
                             <span>
-                                <v-btn icon>
+                                <v-btn icon :to="'/user/' + user.id">
                                     <img src="~/assets/img/edit.svg" alt="">
                                 </v-btn>
                             </span>
@@ -76,12 +64,44 @@
 </template>
   
 <script>
+import AddUser from '~/components/User/AddUser'
 export default {
     name: 'IndexPage',
+    components:{
+        AddUser
+    },
     data() {
         return {
             message: ''
         }
+    },
+
+
+    methods:{
+        customerName(e){
+            try {
+                return e.client.user.firstName
+            } catch (error) {
+                return ''
+            }
+        },
+        customerMobile(e){
+            try {
+                return e.client.mobile
+            } catch (error) {
+                return ''
+            }
+        }
+    },
+
+    computed:{
+        useres(){
+            return this.$store.getters['get_customers']
+        }
+    },
+
+    beforeMount(){
+        this.$store.dispatch('set_customers' , '')
     }
 }
 </script>

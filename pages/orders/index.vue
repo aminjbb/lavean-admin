@@ -66,7 +66,7 @@
                     <v-col cols="4">
                         <v-row justify="end" align="center" class="fill-height mt-3 mr-5 pl-10">
 
-                            <span>
+                            <!-- <span>
                                 <v-btn icon>
                                     <img src="~/assets/img/edit.svg" alt="">
                                 </v-btn>
@@ -75,7 +75,7 @@
                                 <v-btn icon>
                                     <img src="~/assets/img/trash-2.svg" alt="">
                                 </v-btn>
-                            </span>
+                            </span> -->
 
                         </v-row>
                     </v-col>

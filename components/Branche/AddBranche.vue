@@ -1,6 +1,6 @@
 <template>
     <v-card min-height="250" class="mx-10 mt-5 br-15" outlined>
-        <v-form v-model="valid" ref="addBranche" @submit.prevent="validate()">
+        <v-form v-model="valid" ref="addBrancheForm" @submit.prevent="validate()">
             <v-row class="pt-10 px-10">
                 <v-col cols="6">
                     <v-row justify="center">
@@ -107,7 +107,7 @@
                     انصراف
                 </span>
             </v-btn>
-            <v-btn :loading="lodaing" @click="validate()" color="DeepGreen" class="br-10 mr-5" width="199" height="44">
+            <v-btn :loading="loading" @click="validate()" color="DeepGreen" class="br-10 mr-5" width="199" height="44">
                 <span class="t14400 white--text">
                     بارگذاری نهایی
                 </span>
@@ -264,7 +264,7 @@ export default {
             this.latLng1 = [latlng.lat, latlng.lng];
         },
         validate() {
-            this.$refs.addBranche.validate()
+            this.$refs.addBrancheForm.validate()
             setTimeout(() => {
                 if (this.valid) {
                     this.createBranche()
@@ -273,7 +273,8 @@ export default {
         },
 
         resetForm() {
-            this.$refs.addBranche.rest()
+            this.$refs.addBrancheForm.reset()
+            this.close()
         },
 
         createBranche() {
@@ -297,6 +298,7 @@ export default {
                 .then(response => {
                     this.loading = false;
                     this.$store.dispatch('set_branches' , '')
+                    this.close()
                     this.resetForm()
                 })
                 .catch(err => {

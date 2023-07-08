@@ -21,8 +21,7 @@
                 </v-row>
             </v-card>
             <AddCategory v-else-if="addCollection && !editCollection" :close="closeAdd" />
-            <EditCollection v-else-if="!addCollection && editCollection" :close="closeEdit" :collectionName="name"
-                :id="collectionId" :inEdit="editCollection" />
+           
             <v-card height="103" outlined class="ma-3 mx-10 br-15" v-for="cat in categories" :key="cat.id">
                 <v-row align="center" class="fill-height">
                     <v-col cols="4">
@@ -36,14 +35,14 @@
                     </v-col>
                     <v-col cols="8">
                         <v-row justify="end" align="center" class="fill-height mt-3 mr-5 pl-10">
-
+<!-- 
                             <span>
-                                <v-btn @click="collectionEdit(collection.name, collection.id)" icon>
+                                <v-btn @click="categoryEdit(cat.name, cat.id)" icon>
                                     <img src="~/assets/img/edit.svg" alt="">
                                 </v-btn>
-                            </span>
+                            </span> -->
                             <span class="mr-5">
-                                <v-btn icon>
+                                <v-btn @click="deleteCategory(cat.id)" icon>
                                     <img src="~/assets/img/trash-2.svg" alt="">
                                 </v-btn>
                             </span>
@@ -58,11 +57,9 @@
     
 <script>
 import AddCategory from '~/components/BlogCategory/AddCategory'
-import EditCollection from '~/components/Collection/EditCollection'
 export default {
     components: {
         AddCategory,
-        EditCollection
     },
     data() {
         return {
@@ -80,11 +77,17 @@ export default {
         closeEdit() {
             this.editCollection = false;
         },
-        collectionEdit(name, id) {
+        categoryEdit(name, id) {
             this.name = name
             this.collectionId = id
             this.editCollection = true;
             this.addCollection = false
+        },
+
+        deleteCategory(id){
+            this.$store.commit('public/set_deleteModal', true)
+            this.$store.commit('public/set_statusDelete', 'blogCategory')
+            this.$store.commit('public/set_objectId', id)
         }
     },
 

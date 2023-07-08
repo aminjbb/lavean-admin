@@ -6,13 +6,29 @@ export const strict = false
 export const state = () => ({
     provinces: [],
     citys: [],
-    producEdit:''
+    producEdit: '',
+    categoryEdit: '',
+    deleteModal: false,
+    statusDelete: '',
+    objectId:''
 
 })
 
 export const mutations = {
+    set_objectId(state , id){
+        state.objectId = id
+    },
+    set_statusDelete(state , bool){
+        state.statusDelete =bool
+    },
+    set_deleteModal(state, bool) {
+        state.deleteModal = bool
+    },
+    set_categoryEdit(state, obj) {
+        state.categoryEdit = obj
+    },
 
-    set_producEdit(state , obj){
+    set_producEdit(state, obj) {
         state.producEdit = obj
     },
 
@@ -64,9 +80,21 @@ export const actions = {
 
 
 export const getters = {
+    get_objectId(state){
+       return state.objectId
+    },
+    get_statusDelete(state ){
+       return state.statusDelete
+    },
+    get_deleteModal(state) {
+        return state.deleteModal
+    },
+    get_categoryEdit(state) {
+        return state.categoryEdit
+    },
 
-    get_producEdit(state ){
-       return state.producEdit
+    get_producEdit(state) {
+        return state.producEdit
     },
 
     get_citys(state) {

@@ -9,11 +9,27 @@ export const state = () => ({
     categories: [],
     products: [],
     blogCategorys: [],
-    orders: []
+    orders: [],
+    blogs: [],
+    blog: '',
+    customers: [],
+    customer: ''
 
 })
 
 export const mutations = {
+    set_customer(state, obj) {
+        state.customer = obj
+    },
+    set_customers(state, obj) {
+        state.customers = obj
+    },
+    set_blog(state, obj) {
+        state.blog = obj
+    },
+    set_blogs(state, obj) {
+        state.blogs = obj
+    },
     set_orders(state, obj) {
         state.orders = obj
     },
@@ -40,6 +56,189 @@ export const mutations = {
 
 
 export const actions = {
+    async set_customer({ commit }, id) {
+        const requestHeaders = {
+            Authorization: "Bearer " + cookies.get("token"),
+        };
+        const query = gql`
+        query{
+            adminCustomer(customerId:`+ id + `){
+                id
+                sex
+                birthdate
+                nationalCode
+                cartDetails{
+                    variant{
+                        id,
+                        weight
+                        price
+                        product{
+                            id
+                            name
+                            collection{
+                                id
+                                name
+                            }
+                            mainCategory{
+                                id
+                                name
+                            }
+                            images{
+                                imageThumbnail{
+                                    medium
+                                }
+                            }
+                        }
+                    }
+                }
+                orders{
+                    id
+                    finalPrice
+                    details{
+                        variantName,
+                        variantUnitPriceWithoutDiscount,
+                        variantUnitPrice
+                    }
+                }
+                client{
+                    id
+                    mobile
+                    
+                    addresses{
+                        id,
+                        addressDetail
+                        number
+                    },
+                    user{
+                        id
+                        username
+                        firstName
+                        lastName
+                        email
+                    }
+                }
+                   
+            }
+          } `;
+        const obj = await this.$graphql.default.request(query, {}, requestHeaders);
+        commit('set_customer', obj.adminCustomer);
+    },
+    async set_customers({ commit }, form) {
+        const requestHeaders = {
+            Authorization: "Bearer " + cookies.get("token"),
+        };
+        const query = gql`
+        query{
+            adminCustomers(limit:50  `+ form + `){
+                results{
+                    id
+                    sex
+                    birthdate
+                    cartDetails{
+                        variant{
+                            id,
+                            weight
+                            price
+                            product{
+                                id
+                                name
+                                collection{
+                                    id
+                                    name
+                                }
+                                mainCategory{
+                                    id
+                                    name
+                                }
+                                images{
+                                    imageThumbnail{
+                                        medium
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    orders{
+                        id
+                        finalPrice
+                        details{
+                            variantName,
+                            variantUnitPriceWithoutDiscount,
+                            variantUnitPrice
+                        }
+                    }
+                    client{
+                        id
+                        mobile
+                        
+                        addresses{
+                            id,
+                            addressDetail
+                            number
+                        },
+                        user{
+                            username
+                            firstName
+                            lastName
+                            email
+                        }
+                    }
+                }
+                   
+            }
+          } `;
+        const obj = await this.$graphql.default.request(query, {}, requestHeaders);
+        commit('set_customers', obj.adminCustomers.results);
+    },
+    async set_blog({ commit }, id) {
+        const requestHeaders = {
+            Authorization: "Bearer " + cookies.get("token"),
+        };
+        const query = gql`
+        query{
+            adminBlogPost(blogPostId:`+ id + `){
+                id,
+                    mainTitle,
+                    image,
+                    createdAt,
+                    canonical
+                    schema
+                    url
+                    metaDescription
+                    metaTitle
+                    description
+            }
+          } `;
+        const obj = await this.$graphql.default.request(query, {}, requestHeaders);
+        commit('set_blog', obj.adminBlogPost);
+    },
+    async set_blogs({ commit }, form) {
+        const requestHeaders = {
+            Authorization: "Bearer " + cookies.get("token"),
+        };
+        const query = gql`
+        query{
+            adminBlogPosts(limit:20  `+ form + `){
+                results{
+                    id,
+                    mainTitle,
+                    image,
+                    createdAt,
+                    createdBy{
+                        id,
+                        client{
+                            user{
+                                firstName
+                            }
+                        }
+                    }
+                }
+                   
+            }
+          } `;
+        const obj = await this.$graphql.default.request(query, {}, requestHeaders);
+        commit('set_blogs', obj.adminBlogPosts.results);
+    },
     async set_orders({ commit }, form) {
         const requestHeaders = {
             Authorization: "Bearer " + cookies.get("token"),
@@ -145,7 +344,12 @@ export const actions = {
                 results{
                     id,
                     name,
-                    image
+                    image,
+                    url,
+                    subCategories{
+                        id,
+                        name
+                    }
                 }
             }
           } `;
@@ -201,6 +405,18 @@ export const actions = {
 
 
 export const getters = {
+    get_customer(state) {
+        return state.customer
+    },
+    get_customers(state) {
+        return state.customers
+    },
+    get_blog(state) {
+        return state.blog
+    },
+    get_blogs(state) {
+        return state.blogs
+    },
     get_orders(state) {
         return state.orders
     },

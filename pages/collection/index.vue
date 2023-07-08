@@ -42,7 +42,7 @@
                 </v-btn>
               </span>
               <span class="mr-5">
-                <v-btn icon>
+                <v-btn @click="deleteCollection(collection.id)" icon>
                   <img src="~/assets/img/trash-2.svg" alt="">
                 </v-btn>
               </span>
@@ -84,6 +84,11 @@ export default {
       this.collectionId = id
       this.editCollection = true;
       this.addCollection = false
+    },
+    deleteCollection(id){
+      this.$store.commit('public/set_deleteModal' , true)
+      this.$store.commit('public/set_statusDelete' , 'collection')
+      this.$store.commit('public/set_objectId' ,id)
     }
   },
 

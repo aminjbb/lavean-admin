@@ -14,7 +14,7 @@
                         افزودن مطلب جدید
                     </span>
                     <span>
-                        <v-btn icon>
+                        <v-btn to="/blog/add" icon>
                             <img src="~/assets/img/PlusCircle.svg" alt="">
                         </v-btn>
                     </span>
@@ -38,25 +38,25 @@
           </v-col>
         </v-row> -->
 
-            <v-card height="103" outlined class="ma-3 mx-10 br-15">
+            <v-card height="103" outlined class="ma-3 mx-10 br-15" v-for="blog in blogs" :key="blog.id">
                 <v-row align="center" class="fill-height">
                     <v-col cols="8">
                         <v-row justify="space-between" align="center" class="fill-height mt-3 mr-5">
                             <span>
-                                <v-img class="br-10" lazy-src="https://picsum.photos/id/11/10/6" height="72" width="123"
-                                    src="https://picsum.photos/id/11/500/300"></v-img>
+                                <v-img class="br-10" :lazy-src="baseUrl + blog.image" height="72" width="123"
+                                    :src="baseUrl + blog.image"></v-img>
                             </span>
                             <span>
-                                سنگ ماه تولد تیر و خواص آن را بشناسید
+                                {{ blog.mainTitle }}
                             </span>
                             <span>
                                 سنگ های قیمتی
                             </span>
                             <span>
-                                ۲۸ تیرماه ۱۴۰۱
+                                {{ convertDate(blog.createdAt) }}
                             </span>
                             <span>
-                                گلزار حیدری
+                                {{ createBy(blog.createdBy) }}
                             </span>
                         </v-row>
                     </v-col>
@@ -64,12 +64,12 @@
                         <v-row justify="end" align="center" class="fill-height mt-3 mr-5 pl-10">
 
                             <span>
-                                <v-btn icon>
+                                <v-btn :to="'/blog/' + blog.id" icon>
                                     <img src="~/assets/img/edit.svg" alt="">
                                 </v-btn>
                             </span>
                             <span class="mr-5">
-                                <v-btn icon>
+                                <v-btn @click="deleteBlog(blog.id)" icon>
                                     <img src="~/assets/img/trash-2.svg" alt="">
                                 </v-btn>
                             </span>
@@ -83,11 +83,47 @@
 </template>
   
 <script>
+import { PublicMethod } from '~/store/classes.js'
 export default {
     name: 'IndexPage',
     data() {
         return {
             message: ''
+        }
+    },
+
+    beforeMount() {
+        this.$store.dispatch('set_blogs', '')
+    },
+
+    methods: {
+        deleteBlog(id) {
+            this.$store.commit('public/set_deleteModal', true)
+            this.$store.commit('public/set_statusDelete', 'blog')
+            this.$store.commit('public/set_objectId', id)
+        },
+        convertDate(date) {
+            let tmpDate = date.split('T')
+            let splitDate = tmpDate[0].split('-')
+            let pMethod = new PublicMethod()
+            return pMethod.gregorian_to_jalali(parseInt(splitDate[0]), parseInt(splitDate[1]), parseInt(splitDate[2]))
+        },
+
+        createBy(obj) {
+            try {
+                return obj.client.user.firstName
+            } catch (error) {
+                return ''
+            }
+        }
+    },
+    computed: {
+        blogs() {
+            return this.$store.getters['get_blogs']
+        },
+
+        baseUrl() {
+            return process.env.baseUrl + '/media/'
         }
     }
 }

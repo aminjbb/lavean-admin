@@ -237,7 +237,7 @@ export default {
             Address: [],
             map: false,
             editBranche: false,
-            brancheId:''
+            brancheId: ''
         }
     },
     computed: {
@@ -365,22 +365,13 @@ export default {
         },
         closeAdd() {
             this.addBrache = false;
+            this.editBranche = false
         },
         deleteBranche(id) {
-            axios({
-                method: 'delete',
-                url: process.env.apiUrl + 'branch/admin/' + id + '/',
-                headers: {
-                    Authorization: "Bearer " + this.$cookies.get("token"),
-                },
-
-            })
-                .then(response => {
-                    this.$store.dispatch('set_branches', '')
-                })
-                .catch(err => {
-                    this.loading = false;
-                })
+            this.$store.commit('public/set_deleteModal', true)
+            this.$store.commit('public/set_statusDelete', 'branche')
+            this.$store.commit('public/set_objectId', id)
+            
         },
         editBrancheFunc(branche) {
             this.brancheId = branche.id
@@ -391,7 +382,7 @@ export default {
                 this.address = branche.address
                 this.provice = branche.city.province.id
                 this.city = branche.city.id
-                this.latLng1 = [branche.lat , branche.long]
+                this.latLng1 = [branche.lat, branche.long]
             } catch (error) {
 
             }
@@ -414,7 +405,7 @@ export default {
             this.loading = true;
             axios({
                 method: 'put',
-                url: process.env.apiUrl + 'branch/admin/'+this.brancheId+'/',
+                url: process.env.apiUrl + 'branch/admin/' + this.brancheId + '/',
                 headers: {
                     Authorization: "Bearer " + this.$cookies.get("token"),
                 },
@@ -424,13 +415,13 @@ export default {
                     city: this.city,
                     phone: this.phone,
                     is_active: false,
-                    lat:this.latLng1[0],
-                    long:this.latLng1[1],
+                    lat: this.latLng1[0],
+                    long: this.latLng1[1],
                 }
             })
                 .then(response => {
                     this.loading = false;
-                    this.$store.dispatch('set_branches' , '')
+                    this.$store.dispatch('set_branches', '')
                     this.editBranche = false
                     this.resetForm()
                 })

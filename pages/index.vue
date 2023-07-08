@@ -101,20 +101,10 @@ export default {
       }
     },
     deleteProduct(id) {
-      axios({
-        method: 'delete',
-        url: process.env.apiUrl + 'product/admin/' + id + '/',
-        headers: {
-          Authorization: "Bearer " + this.$cookies.get("token"),
-        },
+      this.$store.commit('public/set_deleteModal' , true)
+      this.$store.commit('public/set_statusDelete' , 'product')
+      this.$store.commit('public/set_objectId' ,id)
 
-      })
-        .then(response => {
-          this.$store.dispatch('set_products', '')
-        })
-        .catch(err => {
-          this.loading = false;
-        })
     }
   },
 
