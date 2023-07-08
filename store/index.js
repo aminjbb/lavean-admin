@@ -13,11 +13,27 @@ export const state = () => ({
     blogs: [],
     blog: '',
     customers: [],
-    customer: ''
+    customer: '',
+    productPageLength:1,
+    blogPageLength:1,
+    userPageLength:1,
+    orderPageLength:1,
 
 })
 
 export const mutations = {
+    set_orderPageLength(state , num){
+        state.orderPageLength = num
+    },
+    set_userPageLength(state , num){
+        state.userPageLength = num
+    },
+    set_blogPageLength(state , num){
+        state.blogPageLength = num
+    },
+    set_productPageLength(state , num){
+        state.productPageLength = num
+    },
     set_customer(state, obj) {
         state.customer = obj
     },
@@ -129,7 +145,8 @@ export const actions = {
         };
         const query = gql`
         query{
-            adminCustomers(limit:50  `+ form + `){
+            adminCustomers(limit:20  `+ form + `){
+                totalCount
                 results{
                     id
                     sex
@@ -188,6 +205,7 @@ export const actions = {
             }
           } `;
         const obj = await this.$graphql.default.request(query, {}, requestHeaders);
+        commit('set_userPageLength', Math.round(obj.adminCustomers.totalCount / 20));
         commit('set_customers', obj.adminCustomers.results);
     },
     async set_blog({ commit }, id) {
@@ -219,6 +237,7 @@ export const actions = {
         const query = gql`
         query{
             adminBlogPosts(limit:20  `+ form + `){
+                totalCount
                 results{
                     id,
                     mainTitle,
@@ -237,6 +256,8 @@ export const actions = {
             }
           } `;
         const obj = await this.$graphql.default.request(query, {}, requestHeaders);
+        
+        commit('set_blogPageLength', Math.round(obj.adminBlogPosts.totalCount / 20));
         commit('set_blogs', obj.adminBlogPosts.results);
     },
     async set_orders({ commit }, form) {
@@ -246,6 +267,7 @@ export const actions = {
         const query = gql`
         query{
             adminOrders(limit:20  `+ form + `){
+                totalCount
                 results{
                     id,
                     finalPrice,
@@ -282,6 +304,7 @@ export const actions = {
             }
           } `;
         const obj = await this.$graphql.default.request(query, {}, requestHeaders);
+        commit('set_orderPageLength', Math.round(obj.adminOrders.totalCount / 20));
         commit('set_orders', obj.adminOrders.results);
     },
     async set_blogCategorys({ commit }, form) {
@@ -307,6 +330,7 @@ export const actions = {
         const query = gql`
         query{
             adminProducts(limit:20  `+ form + `){
+                totalCount,
                 results{
                     id,
                     name,
@@ -332,6 +356,7 @@ export const actions = {
             }
           } `;
         const obj = await this.$graphql.default.request(query, {}, requestHeaders);
+        commit('set_productPageLength', Math.round(obj.adminProducts.totalCount / 20));
         commit('set_products', obj.adminProducts.results);
     },
     async set_categories({ commit }, form) {
@@ -405,6 +430,18 @@ export const actions = {
 
 
 export const getters = {
+    get_orderPageLength(state){
+       return state.orderPageLength
+    },
+    get_userPageLength(state){
+       return state.userPageLength
+    },
+    get_blogPageLength(state){
+       return state.blogPageLength
+    },
+    get_productPageLength(state){
+       return state.productPageLength
+    },
     get_customer(state) {
         return state.customer
     },

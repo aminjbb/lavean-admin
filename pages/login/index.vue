@@ -8,11 +8,11 @@
                     </div>
 
                     <v-col cols="9" class="py-0 mt-5">
-                        <v-text-field v-model="username" :rules="rule" background-color="white" color="black"
+                        <v-text-field @keyup.enter="validate()" v-model="username" :rules="rule" background-color="white" color="black"
                             label="نام کاربری" class="br-15" filled dense></v-text-field>
                     </v-col>
                     <v-col cols="9" class="py-0">
-                        <v-text-field type="password" v-model="password" :rules="rule" background-color="white" color="black"
+                        <v-text-field @keyup.enter="validate()" type="password" v-model="password" :rules="rule" background-color="white" color="black"
                             label="رمز عبور" class="br-15" filled dense></v-text-field>
                     </v-col>
 

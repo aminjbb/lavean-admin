@@ -27,12 +27,12 @@
                         <v-row justify="space-between" align="center" class="fill-height  mr-5">
                             <v-col cols="2" class="pt-3">
                                 <span class="t14600">
-                                  {{order.details[0].variantName}}
+                                    {{ order.details[0].variantName }}
                                 </span>
                             </v-col>
                             <v-col cols="2" class="pt-3">
                                 <span class="t14600">
-                                   {{orderClientName(order)}}
+                                    {{ orderClientName(order) }}
                                 </span>
                             </v-col>
                             <v-col cols="2">
@@ -41,7 +41,7 @@
                                         <img src="~/assets/img/phone.svg" alt="">
                                     </span>
                                     <span class="t14400 dana-fa">
-                                        {{orderClientMobile(order)}}
+                                        {{ orderClientMobile(order) }}
                                     </span>
                                 </v-row>
                             </v-col>
@@ -51,13 +51,13 @@
                                         <img src="~/assets/img/map-pin.svg" alt="">
                                     </span>
                                     <span class="t14400 dana-fa">
-                                        {{order.delivery.name}}
+                                        {{ order.delivery.name }}
                                     </span>
                                 </v-row>
                             </v-col>
                             <v-col cols="2" class="pt-6">
                                 <div class="status-box-success text-center pt-2" v-if="order.currentStatus">
-                                    <span class="t14400 DeepGreen--text" >{{order.currentStatus.name}}</span>
+                                    <span class="t14400 DeepGreen--text">{{ order.currentStatus.name }}</span>
                                 </div>
                             </v-col>
 
@@ -81,6 +81,10 @@
                     </v-col>
                 </v-row>
             </v-card>
+
+            <div class="text-center mt-5">
+                <v-pagination v-model="page" :length="pageLength" circle color="black"></v-pagination>
+            </div>
         </v-col>
     </v-row>
 </template>
@@ -90,30 +94,42 @@ export default {
     name: 'IndexPage',
     data() {
         return {
-            message: ''
+            message: '',
+            page: 1
         }
     },
 
     computed: {
         orders() {
             return this.$store.getters['get_orders']
+        },
+
+        pageLength() {
+            return this.$store.getters['get_orderPageLength']
         }
     },
 
-    methods:{
-        orderClientName(e){
+    watch: {
+        page(val) {
+            let page = (val - 1) * 20
+            let fillter = ',offset:' + page
+            this.$store.dispatch('set_orders', fillter)
+        }
+    },
+    methods: {
+        orderClientName(e) {
             try {
                 return e.customer.client.user.firstName
             } catch (error) {
                 return ''
-            }      
+            }
         },
-        orderClientMobile(e){
+        orderClientMobile(e) {
             try {
                 return e.customer.client.mobile
             } catch (error) {
                 return ''
-            }      
+            }
         }
     },
 

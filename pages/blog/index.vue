@@ -78,6 +78,10 @@
                     </v-col>
                 </v-row>
             </v-card>
+
+            <div class="text-center mt-5">
+                <v-pagination v-model="page" :length="pageLength" circle color="black"></v-pagination>
+            </div>
         </v-col>
     </v-row>
 </template>
@@ -88,7 +92,8 @@ export default {
     name: 'IndexPage',
     data() {
         return {
-            message: ''
+            message: '',
+            page: 1
         }
     },
 
@@ -117,6 +122,13 @@ export default {
             }
         }
     },
+    watch: {
+        page(val) {
+            let page = (val - 1) * 20
+            let fillter = ',offset:' + page
+            this.$store.dispatch('set_blogs', fillter)
+        }
+    },
     computed: {
         blogs() {
             return this.$store.getters['get_blogs']
@@ -124,6 +136,9 @@ export default {
 
         baseUrl() {
             return process.env.baseUrl + '/media/'
+        },
+        pageLength() {
+            return this.$store.getters['get_blogPageLength']
         }
     }
 }

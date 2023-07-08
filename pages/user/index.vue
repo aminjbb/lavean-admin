@@ -9,13 +9,13 @@
                 </v-row>
             </v-card>
 
-            <v-card height="103" outlined class="ma-3 mx-10 br-15" v-for="(user , index) in useres" :key="index">
+            <v-card height="103" outlined class="ma-3 mx-10 br-15" v-for="(user, index) in useres" :key="index">
                 <v-row align="center" class="fill-height">
                     <v-col cols="5">
                         <v-row justify="space-between" align="center" class="fill-height  mr-5">
                             <v-col cols="2" class="pt-8">
                                 <span class="t14600">
-                                   {{customerName(user)}}
+                                    {{ customerName(user) }}
                                 </span>
                             </v-col>
                             <v-col cols="3">
@@ -24,7 +24,7 @@
                                         <img src="~/assets/img/phone.svg" alt="">
                                     </span>
                                     <span class="t14400 dana-fa">
-                                        {{customerMobile(user)}}
+                                        {{ customerMobile(user) }}
                                     </span>
                                 </v-row>
                             </v-col>
@@ -59,6 +59,9 @@
                     </v-col>
                 </v-row>
             </v-card>
+            <div class="text-center mt-5">
+                <v-pagination v-model="page" :length="pageLength" circle color="black"></v-pagination>
+            </div>
         </v-col>
     </v-row>
 </template>
@@ -67,25 +70,26 @@
 import AddUser from '~/components/User/AddUser'
 export default {
     name: 'IndexPage',
-    components:{
+    components: {
         AddUser
     },
     data() {
         return {
-            message: ''
+            message: '',
+            page: 1
         }
     },
 
 
-    methods:{
-        customerName(e){
+    methods: {
+        customerName(e) {
             try {
                 return e.client.user.firstName
             } catch (error) {
                 return ''
             }
         },
-        customerMobile(e){
+        customerMobile(e) {
             try {
                 return e.client.mobile
             } catch (error) {
@@ -94,14 +98,25 @@ export default {
         }
     },
 
-    computed:{
-        useres(){
+    computed: {
+        useres() {
             return this.$store.getters['get_customers']
+        },
+        pageLength() {
+            return this.$store.getters['get_userPageLength']
         }
     },
 
-    beforeMount(){
-        this.$store.dispatch('set_customers' , '')
+    watch: {
+        page(val) {
+            let page = (val - 1) * 20
+            let fillter = ',offset:' + page
+            this.$store.dispatch('set_customers', fillter)
+        }
+    },
+
+    beforeMount() {
+        this.$store.dispatch('set_customers', '')
     }
 }
 </script>

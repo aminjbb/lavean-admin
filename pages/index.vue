@@ -66,6 +66,10 @@
           </v-col>
         </v-row>
       </v-card>
+      <div class="text-center mt-5">
+        <v-pagination v-model="page" :length="pageLength" circle color="black"></v-pagination>
+      </div>
+      
     </v-col>
   </v-row>
 </template>
@@ -76,7 +80,8 @@ export default {
   name: 'IndexPage',
   data() {
     return {
-      message: ''
+      message: '',
+      page: 1
     }
   },
 
@@ -85,7 +90,9 @@ export default {
       return this.$store.getters['get_products']
     },
 
-
+    pageLength() {
+      return this.$store.getters['get_productPageLength']
+    }
   },
 
   methods: {
@@ -101,10 +108,18 @@ export default {
       }
     },
     deleteProduct(id) {
-      this.$store.commit('public/set_deleteModal' , true)
-      this.$store.commit('public/set_statusDelete' , 'product')
-      this.$store.commit('public/set_objectId' ,id)
+      this.$store.commit('public/set_deleteModal', true)
+      this.$store.commit('public/set_statusDelete', 'product')
+      this.$store.commit('public/set_objectId', id)
 
+    }
+  },
+
+  watch: {
+    page(val) {
+      let page = (val - 1) * 20
+      let fillter = ',offset:'+page
+      this.$store.dispatch('set_products', fillter)
     }
   },
 
