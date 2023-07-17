@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import ModalConfirmDelete from '~/components/Public/ModalConfirmDelete'
+import ModalConfirmDelete from '~/components/public/ModalConfirmDelete'
 export default {
   name: 'DefaultLayout',
   components: {
