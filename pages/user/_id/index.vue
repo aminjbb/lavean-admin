@@ -116,7 +116,7 @@
     </div>
 </template>
 <script>
-import Address from '~/components/Public/Address'
+import Address from '~/components/public/Address'
 import axios from 'axios'
 import VuePersianDatetimePicker from "vue-persian-datetime-picker";
 import { PublicMethod } from '~/store/classes.js'
