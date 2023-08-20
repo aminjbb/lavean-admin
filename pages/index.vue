@@ -8,7 +8,7 @@
           </span>
         </v-row>
       </v-card>
-      <v-card height="103" class="mx-10 mt-5 br-15" outlined>
+      <!-- <v-card height="103" class="mx-10 mt-5 br-15" outlined>
         <v-row justify="space-between" class="pa-11">
           <span class="mt-2 t14600">
             افزودن محصول جدید
@@ -19,7 +19,7 @@
             </v-btn>
           </span>
         </v-row>
-      </v-card>
+      </v-card> -->
 
 
       <v-card height="103" outlined class="ma-3 mx-10 br-15" v-for="product in products" :key="product.id">
@@ -67,7 +67,7 @@
         </v-row>
       </v-card>
       <div class="text-center mt-5">
-        <v-pagination v-model="page" :length="pageLength" circle color="black"></v-pagination>
+        <v-pagination v-model="page" :total-visible="5" :length="pageLength" circle color="black"></v-pagination>
       </div>
       
     </v-col>

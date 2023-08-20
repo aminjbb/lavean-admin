@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-form v-model="valid" ref="addProduct">
+        <!-- <v-form v-model="valid" ref="addProduct">
             <v-row justify="center" class="mt-15 pt-10">
                 <v-col cols="5">
                     <v-row justify="center">
@@ -215,7 +215,7 @@
                     </v-row>
                 </v-col>
             </v-row>
-        </v-form>
+        </v-form> -->
 
 
 

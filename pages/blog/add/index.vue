@@ -70,7 +70,7 @@
 
             </v-row>
             <v-row justify="center" class="mt-15 pt-10">
-                <v-col cols="4">
+                <v-col cols="5">
                     <div class="box-card mr-10 py-15 pt-8">
                         <v-row justify="center">
                             <v-col cols="9">
@@ -156,7 +156,7 @@
 
                     </div>
                 </v-col>
-                <v-col cols="4">
+                <v-col cols="5">
                     <div class="box-card mr-10 py-4 pt-8">
                         <div>
                             <div class="pl-14 text-left"><span class="t18400 black--text">Meta Keyword</span></div>
