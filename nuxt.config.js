@@ -6,8 +6,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - laveen-admin-front',
-    title: 'laveen-admin-front',
+    titleTemplate: '',
+    title: 'پنل ادمین لاوین',
     htmlAttrs: {
       lang: 'en'
     },
