@@ -333,6 +333,7 @@ export const actions = {
                 totalCount,
                 results{
                     id,
+                    isActive,
                     name,
                     metaDescription,
                     metaTitle,

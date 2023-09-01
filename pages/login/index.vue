@@ -1,6 +1,6 @@
 <template>
     <v-row class="height-vh-100" justify="center" align="center">
-        <v-card color="Cultured" width="392" height="374" class="br-25">
+        <v-card color="Cultured" width="392" min-height="374" class="br-25 pb-15">
             <v-form v-model="valid" ref="login">
                 <v-row justify="center">
                     <div class="login-avatar-box">
@@ -8,12 +8,18 @@
                     </div>
 
                     <v-col cols="9" class="py-0 mt-5">
-                        <v-text-field @keyup.enter="validate()" v-model="username" :rules="rule" background-color="white" color="black"
-                            label="نام کاربری" class="br-15" filled dense></v-text-field>
+                        <v-text-field @keyup.enter="validate()" v-model="username" :rules="rule" background-color="white"
+                            color="black" label="نام کاربری" class="br-15" filled dense></v-text-field>
                     </v-col>
                     <v-col cols="9" class="py-0">
-                        <v-text-field @keyup.enter="validate()" type="password" v-model="password" :rules="rule" background-color="white" color="black"
-                            label="رمز عبور" class="br-15" filled dense></v-text-field>
+                        <v-text-field @keyup.enter="validate()" type="password" v-model="password" :rules="rule"
+                            background-color="white" color="black" label="رمز عبور" class="br-15" filled
+                            dense></v-text-field>
+                    </v-col>
+                    <v-col cols="9">
+                        <div class="text-center">
+                            <span class="error--text">{{ erroMessage }}</span>
+                        </div>
                     </v-col>
 
                     <v-col cols="6" class="py-0">
@@ -42,7 +48,8 @@ export default {
             username: '',
             password: '',
             rule: [v => !!v || 'این فیلد الزامی است'],
-            loading: false
+            loading: false,
+            erroMessage: ''
         }
     },
 
@@ -72,6 +79,7 @@ export default {
                     this.loading = false
                 })
                 .catch(err => {
+                    this.erroMessage = err.response.data.message
                     this.loading = false
                 })
         }

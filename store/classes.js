@@ -147,7 +147,7 @@ export class ProductListFilter {
         this.page = 1;
         this.available = "";
         this.colection = [],
-            this.numbers_in_page = 20;
+        this.numbers_in_page = 20;
     }
 
     query_maker() {
