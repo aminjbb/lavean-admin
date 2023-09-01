@@ -122,6 +122,11 @@ export default {
           title: 'مدیریت کاربران',
           to: '/user'
         },
+        {
+          icon: 'mdi-chart-bubble',
+          title: 'لیست حسابداری',
+          to: '/accounting'
+        },
         // {
         //   icon: 'mdi-chart-bubble',
         //   title: 'خروج',
