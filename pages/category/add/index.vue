@@ -43,39 +43,39 @@
                             <v-select :items="categories" v-model="category" color="black" label="دسته بندی" class="br-10"
                                 filled dense></v-select>
                         </div>
-                        <div class="pr-12 "><span class="t18400 black--text">نام زیرمجموعه‌ها</span></div>
-                        <div class="mx-12 ml-14 mt-8">
-                            <v-row class="px-3">
-                                <v-col cols="4" class="py-1 mx-2">
-                                    <div class="sub-category-box px-5 pt-3">
-                                        <span class="t14400 GraniteGray--text">
-                                            نگین دار
-                                        </span>
-                                    </div>
-                                </v-col>
-                                <v-col cols="4" class="py-1 mx-2">
-                                    <div class="sub-category-box px-5 pt-3">
-                                        <span class="t14400 GraniteGray--text">
-                                            نگین دار
-                                        </span>
-                                    </div>
-                                </v-col>
-                                <v-col cols="4" class="py-1 mx-2">
-                                    <div class="sub-category-box px-5 pt-3">
-                                        <span class="t14400 GraniteGray--text">
-                                            نگین دار
-                                        </span>
-                                    </div>
-                                </v-col>
-                                <v-col cols="4" class="py-1 mx-2">
-                                    <div class="sub-category-box px-5 pt-3">
-                                        <span class="t14400 GraniteGray--text">
-                                            نگین دار
-                                        </span>
-                                    </div>
-                                </v-col>
-                            </v-row>
-                        </div>
+<!--                        <div class="pr-12 "><span class="t18400 black&#45;&#45;text">نام زیرمجموعه‌ها</span></div>-->
+<!--                        <div class="mx-12 ml-14 mt-8">-->
+<!--                            <v-row class="px-3">-->
+<!--                                <v-col cols="4" class="py-1 mx-2">-->
+<!--                                    <div class="sub-category-box px-5 pt-3">-->
+<!--                                        <span class="t14400 GraniteGray&#45;&#45;text">-->
+<!--                                            نگین دار-->
+<!--                                        </span>-->
+<!--                                    </div>-->
+<!--                                </v-col>-->
+<!--                                <v-col cols="4" class="py-1 mx-2">-->
+<!--                                    <div class="sub-category-box px-5 pt-3">-->
+<!--                                        <span class="t14400 GraniteGray&#45;&#45;text">-->
+<!--                                            نگین دار-->
+<!--                                        </span>-->
+<!--                                    </div>-->
+<!--                                </v-col>-->
+<!--                                <v-col cols="4" class="py-1 mx-2">-->
+<!--                                    <div class="sub-category-box px-5 pt-3">-->
+<!--                                        <span class="t14400 GraniteGray&#45;&#45;text">-->
+<!--                                            نگین دار-->
+<!--                                        </span>-->
+<!--                                    </div>-->
+<!--                                </v-col>-->
+<!--                                <v-col cols="4" class="py-1 mx-2">-->
+<!--                                    <div class="sub-category-box px-5 pt-3">-->
+<!--                                        <span class="t14400 GraniteGray&#45;&#45;text">-->
+<!--                                            نگین دار-->
+<!--                                        </span>-->
+<!--                                    </div>-->
+<!--                                </v-col>-->
+<!--                            </v-row>-->
+<!--                        </div>-->
                     </v-col>
                 </v-row>
             </v-col>
@@ -119,7 +119,7 @@ export default {
 
     methods: {
         imageToBase64() {
-          
+
             this.pre.image = this.image
             var imageFile = this.image
             var fileReader = new FileReader();

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import cookies from 'vue-cookies'
-import { gql } from 'nuxt-graphql-request';
+import {gql} from 'nuxt-graphql-request';
 
 export const strict = false
 export const state = () => ({
@@ -8,31 +8,36 @@ export const state = () => ({
     collections: [],
     categories: [],
     products: [],
+    variants: [],
     blogCategorys: [],
     orders: [],
     blogs: [],
     blog: '',
     customers: [],
     customer: '',
-    productPageLength:1,
-    blogPageLength:1,
-    userPageLength:1,
-    orderPageLength:1,
+    productPageLength: 1,
+    variantPageLength: 1,
+    blogPageLength: 1,
+    userPageLength: 1,
+    orderPageLength: 1,
 
 })
 
 export const mutations = {
-    set_orderPageLength(state , num){
+    set_orderPageLength(state, num) {
         state.orderPageLength = num
     },
-    set_userPageLength(state , num){
+    set_userPageLength(state, num) {
         state.userPageLength = num
     },
-    set_blogPageLength(state , num){
+    set_blogPageLength(state, num) {
         state.blogPageLength = num
     },
-    set_productPageLength(state , num){
+    set_productPageLength(state, num) {
         state.productPageLength = num
+    },
+    set_variantPageLength(state, num) {
+        state.variantPageLength = num
     },
     set_customer(state, obj) {
         state.customer = obj
@@ -55,6 +60,9 @@ export const mutations = {
     set_products(state, obj) {
         state.products = obj
     },
+    set_variants(state, obj) {
+        state.variants = obj
+    },
     set_categories(state, obj) {
         state.categories = obj
     },
@@ -72,13 +80,13 @@ export const mutations = {
 
 
 export const actions = {
-    async set_customer({ commit }, id) {
+    async set_customer({commit}, id) {
         const requestHeaders = {
             Authorization: "Bearer " + cookies.get("token"),
         };
         const query = gql`
         query{
-            adminCustomer(customerId:`+ id + `){
+            adminCustomer(customerId:` + id + `){
                 id
                 sex
                 birthdate
@@ -119,7 +127,7 @@ export const actions = {
                 client{
                     id
                     mobile
-                    
+
                     addresses{
                         id,
                         addressDetail
@@ -133,19 +141,19 @@ export const actions = {
                         email
                     }
                 }
-                   
+
             }
           } `;
         const obj = await this.$graphql.default.request(query, {}, requestHeaders);
         commit('set_customer', obj.adminCustomer);
     },
-    async set_customers({ commit }, form) {
+    async set_customers({commit}, form) {
         const requestHeaders = {
             Authorization: "Bearer " + cookies.get("token"),
         };
         const query = gql`
         query{
-            adminCustomers(limit:20  `+ form + `){
+            adminCustomers(limit:20  ` + form + `){
                 totalCount
                 results{
                     id
@@ -187,7 +195,7 @@ export const actions = {
                     client{
                         id
                         mobile
-                        
+
                         addresses{
                             id,
                             addressDetail
@@ -201,20 +209,20 @@ export const actions = {
                         }
                     }
                 }
-                   
+
             }
           } `;
         const obj = await this.$graphql.default.request(query, {}, requestHeaders);
         commit('set_userPageLength', Math.round(obj.adminCustomers.totalCount / 20));
         commit('set_customers', obj.adminCustomers.results);
     },
-    async set_blog({ commit }, id) {
+    async set_blog({commit}, id) {
         const requestHeaders = {
             Authorization: "Bearer " + cookies.get("token"),
         };
         const query = gql`
         query{
-            adminBlogPost(blogPostId:`+ id + `){
+            adminBlogPost(blogPostId:` + id + `){
                 id,
                     mainTitle,
                     image,
@@ -230,13 +238,13 @@ export const actions = {
         const obj = await this.$graphql.default.request(query, {}, requestHeaders);
         commit('set_blog', obj.adminBlogPost);
     },
-    async set_blogs({ commit }, form) {
+    async set_blogs({commit}, form) {
         const requestHeaders = {
             Authorization: "Bearer " + cookies.get("token"),
         };
         const query = gql`
         query{
-            adminBlogPosts(limit:20  `+ form + `){
+            adminBlogPosts(limit:20  ` + form + `){
                 totalCount
                 results{
                     id,
@@ -252,21 +260,21 @@ export const actions = {
                         }
                     }
                 }
-                   
+
             }
           } `;
         const obj = await this.$graphql.default.request(query, {}, requestHeaders);
-        
+
         commit('set_blogPageLength', Math.round(obj.adminBlogPosts.totalCount / 20));
         commit('set_blogs', obj.adminBlogPosts.results);
     },
-    async set_orders({ commit }, form) {
+    async set_orders({commit}, form) {
         const requestHeaders = {
             Authorization: "Bearer " + cookies.get("token"),
         };
         const query = gql`
         query{
-            adminOrders(limit:20  `+ form + `){
+            adminOrders(limit:20  ` + form + `){
                 totalCount
                 results{
                     id,
@@ -307,13 +315,13 @@ export const actions = {
         commit('set_orderPageLength', Math.round(obj.adminOrders.totalCount / 20));
         commit('set_orders', obj.adminOrders.results);
     },
-    async set_blogCategorys({ commit }, form) {
+    async set_blogCategorys({commit}, form) {
         const requestHeaders = {
             Authorization: "Bearer " + cookies.get("token"),
         };
         const query = gql`
         query{
-            adminBlogCategories(limit:200  `+ form + `){
+            adminBlogCategories(limit:200  ` + form + `){
                 results{
                     id,
                     name,
@@ -323,13 +331,13 @@ export const actions = {
         const obj = await this.$graphql.default.request(query, {}, requestHeaders);
         commit('set_blogCategorys', obj.adminBlogCategories.results);
     },
-    async set_products({ commit }, form) {
+    async set_products({commit}, form) {
         const requestHeaders = {
             Authorization: "Bearer " + cookies.get("token"),
         };
         const query = gql`
         query{
-            adminProducts(limit:20  `+ form + `){
+            adminProducts(limit:20  ` + form + `){
                 totalCount,
                 results{
                     id,
@@ -360,13 +368,34 @@ export const actions = {
         commit('set_productPageLength', Math.round(obj.adminProducts.totalCount / 20));
         commit('set_products', obj.adminProducts.results);
     },
-    async set_categories({ commit }, form) {
+
+    async set_variants({ commit }, form) {
         const requestHeaders = {
             Authorization: "Bearer " + cookies.get("token"),
         };
         const query = gql`
         query{
-            adminProductCategories(limit:20  `+ form + `){
+            adminVariants(limit:200  `+ form + `){
+                totalCount,
+                results{
+                  id,
+                  webhesabId,
+                  webhesabName
+                }
+            }
+          } `;
+        const obj = await this.$graphql.default.request(query, {}, requestHeaders);
+        commit('set_variantPageLength', Math.round(obj.adminVariants.totalCount / 200));
+        commit('set_variants', obj.adminVariants.results);
+    },
+
+    async set_categories({commit}, form) {
+        const requestHeaders = {
+            Authorization: "Bearer " + cookies.get("token"),
+        };
+        const query = gql`
+        query{
+            adminProductCategories(limit:20  ` + form + `){
                 results{
                     id,
                     name,
@@ -382,30 +411,30 @@ export const actions = {
         const obj = await this.$graphql.default.request(query, {}, requestHeaders);
         commit('set_categories', obj.adminProductCategories.results);
     },
-    async set_collections({ commit }, form) {
+    async set_collections({commit}, form) {
         const requestHeaders = {
             Authorization: "Bearer " + cookies.get("token"),
         };
         const query = gql`
         query{
-            adminCollections(limit:20  `+ form + `){
+            adminCollections(limit:20  ` + form + `){
                 results{
                     id,
                     name,
-                  
+
                 }
             }
           } `;
         const obj = await this.$graphql.default.request(query, {}, requestHeaders);
         commit('set_collections', obj.adminCollections.results);
     },
-    async set_branches({ commit }, form) {
+    async set_branches({commit}, form) {
         const requestHeaders = {
             Authorization: "Bearer " + cookies.get("token"),
         };
         const query = gql`
         query{
-            adminBranches(limit:20  `+ form + `){
+            adminBranches(limit:20  ` + form + `){
                 results{
                     id,
                     name,
@@ -431,17 +460,20 @@ export const actions = {
 
 
 export const getters = {
-    get_orderPageLength(state){
-       return state.orderPageLength
+    get_orderPageLength(state) {
+        return state.orderPageLength
     },
-    get_userPageLength(state){
-       return state.userPageLength
+    get_userPageLength(state) {
+        return state.userPageLength
     },
-    get_blogPageLength(state){
-       return state.blogPageLength
+    get_blogPageLength(state) {
+        return state.blogPageLength
     },
-    get_productPageLength(state){
-       return state.productPageLength
+    get_productPageLength(state) {
+        return state.productPageLength
+    },
+    get_variantPageLength(state) {
+        return state.variantPageLength
     },
     get_customer(state) {
         return state.customer
@@ -463,6 +495,9 @@ export const getters = {
     },
     get_products(state) {
         return state.products
+    },
+    get_variants(state) {
+        return state.variants
     },
     get_categories(state) {
         return state.categories

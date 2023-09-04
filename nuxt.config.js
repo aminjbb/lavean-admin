@@ -126,7 +126,6 @@ export default {
           EerieBlack: "#1A1A1A",
           BananaMania: "#FFEEA9",
           LavenderBlue: "#D6D3FF",
-          AeroBlue: "#B8E6CB",
           LightSlateBlue: "#766BFF",
           Nero: "#1A1A1A",
           MagicMint: "#ACE6C4",

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <!-- <v-form v-model="valid" ref="addProduct">
+        <v-form v-model="valid" ref="addProduct">
             <v-row justify="center" class="mt-15 pt-10">
                 <v-col cols="5">
                     <v-row justify="center">
@@ -59,6 +59,11 @@
                             <div class="mx-12 ml-14 mt-3">
                                 <v-text-field v-model="product.name" :rules="rule" color="black" label="نام محصول"
                                     class="br-10" filled dense></v-text-field>
+                            </div>
+                            <div class="pr-12 "><span class="t18400 black--text">url </span></div>
+                            <div class="mx-12 ml-14 mt-3">
+                              <v-text-field v-model="product.url" color="black" label="url " class="br-10" filled
+                                            dense></v-text-field>
                             </div>
                             <div class="pr-12 "><span class="t18400 black--text">انتخاب دسته بندی</span></div>
                             <div class="mx-12 ml-14 mt-3">
@@ -215,7 +220,7 @@
                     </v-row>
                 </v-col>
             </v-row>
-        </v-form> -->
+        </v-form>
 
 
 

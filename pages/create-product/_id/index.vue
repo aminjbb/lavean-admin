@@ -60,6 +60,11 @@
                                 <v-text-field v-model="product.name" :rules="rule" color="black" label="نام محصول"
                                     class="br-10" filled dense></v-text-field>
                             </div>
+                            <div class="pr-12 "><span class="t18400 black--text">url </span></div>
+                            <div class="mx-12 ml-14 mt-3">
+                              <v-text-field v-model="product.url" color="black" label="url " class="br-10" filled
+                                            dense></v-text-field>
+                            </div>
                             <div class="pr-12 "><span class="t18400 black--text">انتخاب دسته بندی</span></div>
                             <div class="mx-12 ml-14 mt-3">
                                 <v-select :items="categories" v-model="product.category" :rules="rule" color="black"

@@ -12,11 +12,19 @@
         <v-row justify="space-between" class="pt-8 px-10">
           <v-col cols="3">
             <v-text-field v-model="nameFilter" outlined background-color="white" color="black" label="نام محصول "
-              class="br-15" filled dense></v-text-field>
+                          class="br-15" filled dense></v-text-field>
           </v-col>
           <v-col cols="1">
-            <v-btn @click="filterProduct" icon> <v-icon>mdi-filter</v-icon> </v-btn>
+            <v-btn @click="filterProduct" icon>
+              <v-icon>mdi-filter</v-icon>
+            </v-btn>
           </v-col>
+          <v-col cols="1">
+            <span><v-btn to="/create-product" icon>
+              <img src="~/assets/img/PlusCircle.svg" alt="">
+            </v-btn></span>
+          </v-col>
+
         </v-row>
       </v-card>
 
@@ -28,7 +36,7 @@
               <v-col cols="3">
                 <span>
                   <v-img class="br-10" :lazy-src="imageCover(product)" height="72" width="72"
-                    :src="imageCover(product)"></v-img>
+                         :src="imageCover(product)"></v-img>
                 </span>
               </v-col>
               <v-col cols="6">
@@ -37,7 +45,8 @@
                 </span>
               </v-col>
               <v-col cols="3">
-                <v-switch @change="(event) => changeActive(event,product.id)" :value="product.isActive" inset label="فعال سازی"></v-switch>
+                <v-switch @change="(event) => changeActive(event,product.id)" :value="product.isActive" inset
+                          label="فعال سازی"></v-switch>
               </v-col>
               <v-col cols="3">
                 <span v-if="product.collection">
@@ -78,7 +87,8 @@
 
 <script>
 import axios from 'axios'
-import { ProductListFilter } from '~/store/classes'
+import {ProductListFilter} from '~/store/classes'
+
 export default {
   name: 'IndexPage',
   data() {
@@ -101,10 +111,10 @@ export default {
   },
 
   methods: {
-    changeActive(event , id) {
+    changeActive(event, id) {
       axios({
         method: 'post',
-        url: process.env.apiUrl + 'product/admin/' + id +'/',
+        url: process.env.apiUrl + 'product/admin/' + id + '/',
         headers: {
           Authorization: "Bearer " + this.$cookies.get("token"),
         },
