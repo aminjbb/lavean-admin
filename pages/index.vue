@@ -45,8 +45,8 @@
                 </span>
               </v-col>
               <v-col cols="3">
-                <v-switch @change="(event) => changeActive(event,product.id)" :value="product.isActive" inset
-                          label="فعال سازی"></v-switch>
+                <v-switch @change="(event) => changeActive(event,product)" inset
+                          label="فعال سازی" v-model="product.isActive"></v-switch>
               </v-col>
               <v-col cols="3">
                 <span v-if="product.collection">
@@ -111,16 +111,15 @@ export default {
   },
 
   methods: {
-    changeActive(event, id) {
+    changeActive(event, product) {
       axios({
-        method: 'post',
-        url: process.env.apiUrl + 'product/admin/' + id + '/',
+        method: 'put',
+        url: process.env.apiUrl + 'product/admin/' + product.id + '/',
         headers: {
           Authorization: "Bearer " + this.$cookies.get("token"),
         },
         data: {
-          name: this.name,
-
+            is_active: product.isActive,
         }
       })
         .then(response => {
