@@ -97,7 +97,6 @@ export default {
 
       themes: {
         dark: {
-
         },
         light: {
           primary: "#12924F",

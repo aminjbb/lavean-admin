@@ -365,7 +365,7 @@ export const actions = {
             }
           } `;
         const obj = await this.$graphql.default.request(query, {}, requestHeaders);
-        commit('set_productPageLength', Math.round(obj.adminProducts.totalCount / 20));
+        commit('set_productPageLength', Math.ceil(obj.adminProducts.totalCount / 20));
         commit('set_products', obj.adminProducts.results);
     },
 
