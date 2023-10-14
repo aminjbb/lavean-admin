@@ -26,18 +26,16 @@
         ></v-switch>
       </template>
       <template v-slot:item.edit="{ item }">
-        <v-btn @click="editProduct(item)" icon>
+        <v-btn :to="'/create-product/' + item.id" icon>
           <img src="~/assets/img/edit.svg" alt="" />
         </v-btn>
       </template>
       <template v-slot:item.delete="{ item }">
         <ModalRemoveConfirmation
           :itemName="item.name"
-          :itemId="item.id"
-          deleteUrl="product/admin/"
-          @doSomthing="getProductAgain"
+          :modalRemoveConfirmationNeed="modalRemoveConfirmationNeed"
+          @doSomthing="deleteProduct(item.id)"
         />
-        
       </template>
     </v-data-table>
   </v-card>
@@ -92,7 +90,19 @@ export default {
           width: "50",
         },
       ],
-      
+
+      modalRemoveConfirmationNeed: {
+        needicon: true,
+        icon: "mdi-delete",
+        color: "error",
+        iconColor: "error",
+        fab: false,
+        text: false,
+        btnText: false,
+        absolute: false,
+        class: "empty",
+        small: false,
+      },
     };
   },
   computed: {
@@ -121,13 +131,26 @@ export default {
           this.loading = false;
         });
     },
-    editProduct(obj) {
-      this.$store.commit("public/set_producEdit", obj);
-      this.$router.push("create-product/" + obj.id);
+    // editProduct(obj) {
+    //   this.$store.commit("public/set_producEdit", obj);
+    //   this.$router.push("create-product/" + obj.id);
+    // },
+    deleteProduct(id) {
+      this.loading = true;
+      axios({
+        method: "delete",
+        url: process.env.apiUrl + "product/admin/" + id + "/",
+        headers: {
+          Authorization: "Bearer " + this.$cookies.get("token"),
+        },
+      })
+        .then((response) => {
+          this.$store.dispatch("set_products", "");
+        })
+        .catch((err) => {
+          this.loading = false;
+        });
     },
-    getProductAgain(){
-        this.$store.dispatch("set_products", "")
-    }
     // deleteProduct(id) {
     //   this.$store.commit("public/set_deleteModal", true);
     //   this.$store.commit("public/set_statusDelete", "product");

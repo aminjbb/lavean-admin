@@ -1,8 +1,20 @@
 <template>
   <v-dialog v-model="ModalRemoveConfirmation" width="500">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn v-bind="attrs" v-on="on" icon>
-        <img src="~/assets/img/trash-2.svg" alt="" />
+      <v-btn
+        v-bind="attrs"
+        v-on="on"
+        :icon="modalRemoveConfirmationNeed.needicon"
+         class=""
+        :fab="modalRemoveConfirmationNeed.fab"
+        :text="modalRemoveConfirmationNeed.text"
+        :color="modalRemoveConfirmationNeed.color"
+        :absolute="modalRemoveConfirmationNeed.absolute"
+        :class="modalRemoveConfirmationNeed.class"
+        :small="modalRemoveConfirmationNeed.small"
+      >
+        <v-icon v-if="modalRemoveConfirmationNeed.icon" :color="modalRemoveConfirmationNeed.iconColor">{{ modalRemoveConfirmationNeed.icon }}</v-icon>
+        <span v-if="modalRemoveConfirmationNeed.btnText">{{ modalRemoveConfirmationNeed.btnText }}</span>
       </v-btn>
     </template>
 
@@ -11,12 +23,26 @@
         <v-icon size="52" color="error">mdi-close-octagon</v-icon>
       </v-row>
       <v-col>
-        <p class="text-center t16400">ایا از حذف ایتم <span class="t16800">{{ itemName }}</span> اطمینان دارید؟</p>
+        <v-row class="ma-0 mb-6" align="center" justify="center" v-if="image">
+          <v-img class="br-25" aspect-ratio="1" max-width="200" :src="this.image"> </v-img>
+        </v-row>
+        <p class="text-center t16400">
+          ایا از حذف آیتم
+          <span class="t16800" v-if="itemName">{{ itemName }}</span> اطمینان
+          دارید؟
+        </p>
       </v-col>
-      <!-- @ModalRemoveConfirmation="dialog = false" -->
+
       <v-row class="ma-0 pa-3" align="center" justify="space-between">
-        <v-btn class="px-8" color="error" depressed @click="deleteItem( deleteUrl, itemId)"> حذف </v-btn>
-        <v-btn outlined depressed @click="test" >
+        <v-btn
+          class="px-8"
+          color="error"
+          depressed
+          @click="deleteItem"
+        >
+          حذف
+        </v-btn>
+        <v-btn outlined depressed @click="ModalRemoveConfirmation = false">
           انصراف
         </v-btn>
       </v-row>
@@ -25,12 +51,13 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   props: {
     itemName: "",
     itemId: "",
     deleteUrl: "",
+    image : null,
+    modalRemoveConfirmationNeed: null,
   },
   data() {
     return {
@@ -38,27 +65,10 @@ export default {
     };
   },
   methods: {
-    deleteItem(url, id) {
-        
-      this.loading = true;
-      axios({
-        method: "delete",
-        url: process.env.apiUrl + url + id + "/",
-        headers: {
-          Authorization: "Bearer " + this.$cookies.get("token"),
-        },
-      })
-        .then((response) => {
-          this.ModalRemoveConfirmation = false;
-          this.$emit("doSomthing");
-        })
-        .catch((err) => {
-          this.loading = false;
-        });
+    deleteItem() {
+      this.ModalRemoveConfirmation = false;
+      this.$emit("doSomthing");
     },
-    test(){
-        console.log(this.deleteUrl);
-    }
   },
 };
 </script>

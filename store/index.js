@@ -368,7 +368,6 @@ export const actions = {
         commit('set_productPageLength', Math.ceil(obj.adminProducts.totalCount / 20));
         commit('set_products', obj.adminProducts.results);
     },
-
     async set_variants({ commit }, form) {
         const requestHeaders = {
             Authorization: "Bearer " + cookies.get("token"),
@@ -388,7 +387,6 @@ export const actions = {
         commit('set_variantPageLength', Math.round(obj.adminVariants.totalCount / 200));
         commit('set_variants', obj.adminVariants.results);
     },
-
     async set_categories({commit}, form) {
         const requestHeaders = {
             Authorization: "Bearer " + cookies.get("token"),
@@ -455,7 +453,6 @@ export const actions = {
         const obj = await this.$graphql.default.request(query, {}, requestHeaders);
         commit('set_branches', obj.adminBranches.results);
     },
-
 }
 
 
