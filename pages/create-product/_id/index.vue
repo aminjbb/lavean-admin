@@ -23,40 +23,7 @@
                 ></v-file-input>
               </v-img>
             </v-card>
-            <!-- <div class="mx-3">
-              <div class="selected-image-box">
-                <img
-                  :src="main[0].base64"
-                  v-if="main[0]"
-                  width="117px"
-                  height="117px"
-                  alt=""
-                  class="br-15"
-                />
-              </div>
-              <div class="selected-image-box mt-5">
-                <img
-                  :src="main[0].base64"
-                  v-if="main[1]"
-                  width="117px"
-                  height="117px"
-                  alt=""
-                  class="br-15"
-                />
-              </div>
-              <div class="selected-image-box mt-5">
-                <img
-                  :src="main[0].base64"
-                  v-if="main[2]"
-                  width="117px"
-                  height="117px"
-                  alt=""
-                  class="br-15"
-                />
-              </div>
-            </div> -->
           </v-row>
-
           <div class="mt-6">
             <v-text-field
               :rules="rules"
@@ -77,29 +44,34 @@
             ></v-textarea>
           </div>
           <v-btn
-            @click="saveImage()"
+            @click="uploadImage"
             color="DeepGreen"
             class="br-10 px-5"
             outlined
+            :loading="loadingImage"
           >
             <span class="t14400"> آپلود عکس </span>
           </v-btn>
-          <v-row class="ma-0">
+          <v-row class="mt-6">
             <v-col
               cols="3"
-              v-for="(item, i) in main"
+              v-for="(item, i) in productById.images"
               :key="i"
               class="position__relative"
             >
               <v-card elevation="0" outlined class="position__relative br-25">
-                <v-img aspect-ratio="1" max-width="400" :src="item.base64">
+                <v-img
+                  aspect-ratio="1"
+                  max-width="400"
+                  :src="baseUrl + '/media/' + item.imageThumbnail.medium"
+                >
                 </v-img>
               </v-card>
               <ModalRemoveConfirmation
-                :itemName="item.name"
+                :itemName="item.caption"
                 :modalRemoveConfirmationNeed="modalRemoveConfirmationNeed"
-                :image="item.base64"
-                @doSomthing="removeImage(item.image)"
+                :image="baseUrl + '/media/' + item.imageThumbnail.medium"
+                @doSomthing="deleteImage(item.image)"
               />
             </v-col>
           </v-row>
@@ -143,21 +115,10 @@
                 outlined
                 background-color="Cultured"
               ></v-select>
-              <v-text-field
-                v-model="product.metaTitle"
-                :rules="rule"
-                color="black"
-                label="Meta title"
-                class="br-10"
-                outlined
-                background-color="Cultured"
-              ></v-text-field>
-
               <v-textarea
-                v-model="product.metaDescription"
-                :rules="rule"
+                v-model="product.description"
                 color="black"
-                label="Meta Description"
+                label="توضیح"
                 class="br-10"
                 outlined
                 background-color="Cultured"
@@ -393,13 +354,16 @@ import FAQA from "~/components/Product/FAQA.vue";
 import axios from "axios";
 import cookies from "vue-cookies";
 import { gql } from "nuxt-graphql-request";
+import ModalRemoveConfirmation from "../../../components/public/ModalRemoveConfirmation.vue";
 export default {
   components: {
     FAQA,
+    ModalRemoveConfirmation,
   },
   data() {
     return {
       image: "",
+      loadingImage: false,
       pre: {
         image: "",
         base64: "",
@@ -418,12 +382,28 @@ export default {
         metaDescription: "",
         canonical: "",
         url: "",
+        description: "",
       },
       productById: "",
+      modalRemoveConfirmationNeed: {
+        needicon: true,
+        icon: "mdi-close-circle",
+        color: "",
+        iconColor: "error",
+        fab: false,
+        text: false,
+        btnText: false,
+        absolute: true,
+        class: "btn_delete-card",
+        small: false,
+      },
     };
   },
 
   methods: {
+    test() {
+      console.log(this.pre);
+    },
     imageToBase64() {
       this.pre.image = this.image;
       var imageFile = this.image;
@@ -435,14 +415,36 @@ export default {
       };
       fileReader.readAsDataURL(imageFile);
     },
-    saveImage() {
-      this.main.push(this.pre);
-      this.pre = {
-        image: "",
-        base64: "",
-        name: "",
-        desc: "",
-      };
+    async uploadImage() {
+      if (this.pre.image) {
+        this.loadingImage = true;
+        return await axios({
+          method: "post",
+          url: process.env.apiUrl + "image/admin/",
+          headers: {
+            Authorization: "Bearer " + this.$cookies.get("token"),
+            "Content-Type": "multipart/form-data",
+          },
+          data: {
+            product: this.$route.params.id,
+            image: this.pre.image,
+            caption: this.pre.name,
+          },
+        })
+          .then((response) => {
+            this.loadingImage = false;
+            this.pre = {
+              image: "",
+              base64: "",
+              name: "",
+              desc: "",
+            };
+            this.getProduct(this.$route.params.id);
+          })
+          .catch((err) => {
+            this.loadingImage = false;
+          });
+      }
     },
     validate() {
       this.$refs.addProduct.validate();
@@ -505,25 +507,7 @@ export default {
           this.loading = false;
         });
     },
-    uploadImage(obj, id) {
-      axios({
-        method: "post",
-        url: process.env.apiUrl + "image/admin/",
-        headers: {
-          Authorization: "Bearer " + this.$cookies.get("token"),
-          "Content-Type": "multipart/form-data",
-        },
-        data: {
-          product: id,
-          image: obj.image,
-          caption: obj.name,
-        },
-      })
-        .then((response) => {})
-        .catch((err) => {
-          this.loading = false;
-        });
-    },
+
     async getProduct(id) {
       const requestHeaders = {
         Authorization: "Bearer " + cookies.get("token"),
@@ -538,6 +522,7 @@ export default {
                canonical
                 name
                 url
+                description
                 mainCategory {
                     id
                     name
@@ -570,6 +555,15 @@ export default {
       this.product.name = this.productById.name;
       this.product.url = this.productById.url;
       this.product.category = this.productById.category;
+      this.product.category = this.productById.mainCategory
+        ? this.productById.mainCategory.id
+        : "";
+      this.product.collection = this.productById.collection
+        ? this.productById.collection.id
+        : "";
+      this.product.description = this.productById.description
+        ? this.productById.description
+        : "";
     },
 
     // setForm() {
@@ -628,6 +622,9 @@ export default {
         collections.push(form);
       });
       return collections;
+    },
+    baseUrl() {
+      return process.env.baseUrl;
     },
   },
 };

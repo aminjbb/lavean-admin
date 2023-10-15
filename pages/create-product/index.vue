@@ -180,9 +180,6 @@ export default {
   },
 
   methods: {
-    test() {
-      console.log(this.main);
-    },
     imageToBase64() {
       if (this.image) {
         this.pre.image = this.image;
