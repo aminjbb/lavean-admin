@@ -30,7 +30,7 @@ body {
 }
 
 .dir-ltr {
-  direction: ltr;
+  direction: ltr !important;
 }
 
 .theme--light.v-card {
@@ -1355,3 +1355,4 @@ ol li {
     top: 5px;
     left: 5px;
 }
+

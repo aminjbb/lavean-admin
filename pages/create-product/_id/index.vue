@@ -127,9 +127,9 @@
           </v-from>
         </v-col>
       </v-row>
-      <v-row justify="center" class="mt-15 pt-10">
+      <v-row justify="start" class="mt-15 pt-10">
         <v-col cols="6">
-          <div class="box-card mr-10 py-15 pt-8">
+          <!-- <div class="box-card mr-10 py-15 pt-8">
             <v-row justify="center">
               <v-col cols="9">
                 <v-text-field
@@ -165,19 +165,90 @@
                 <span class="t18400">Redirect</span>
               </v-col>
             </v-row>
-          </div>
-
-          <div class="box-card mr-10 mt-15 py-5 pt-8">
-            <v-row justify="end" class="px-8">
-              <v-card outlined class="br-10 ml-15" max-height="40" width="194">
-                <v-item-group
-                  v-model="available"
-                  active-class="btn2_toggle-plp"
+          </div> -->
+          <v-card outlined class="br-10 pa-6 dir-ltr">
+            <v-combobox
+              v-model="product.metaTags"
+              :items="items"
+              label="Meta Tags"
+              multiple
+              chips
+              class="br-10"
+              outlined
+              append-icon=""
+              background-color="Cultured"
+            >
+              <template v-slot:selection="data">
+                <v-chip
+                  :key="JSON.stringify(data.item)"
+                  v-bind="data.attrs"
+                  :input-value="data.selected"
+                  :disabled="data.disabled"
+                  @click:close="data.parent.selectItem(data.item)"
                 >
-                  <v-item v-slot="{ active, toggle }" value="all">
+                   
+                  {{ data.item }}
+                </v-chip>
+              </template>
+            </v-combobox>
+            <v-combobox
+              v-model="product.metaTags"
+              label="Meta Tags"
+              :items="items"
+              multiple
+              class="br-10"
+              outlined
+              prepend-inner-icon=""
+              background-color="Cultured"
+            ></v-combobox>
+
+            <v-text-field
+              v-model="product.metaTitle"
+              color="black"
+              label="Meta Title"
+              class="br-10"
+              outlined
+              background-color="Cultured"
+            ></v-text-field>
+            <v-textarea
+              v-model="product.metaDescription"
+              color="black"
+              label="Meta Description"
+              class="br-10"
+              outlined
+              background-color="Cultured"
+            ></v-textarea>
+            <v-text-field
+              v-model="product.canonical"
+              color="black"
+              label="Canonical"
+              class="br-10"
+              outlined
+              background-color="Cultured"
+            ></v-text-field>
+            <v-text-field
+              v-model="product.pageTitle"
+              color="black"
+              label="Page Title"
+              class="br-10"
+              outlined
+              background-color="Cultured"
+            ></v-text-field>
+            <v-textarea
+              v-model="product.schema"
+              color="black"
+              label="schema"
+              class="br-10"
+              outlined
+              background-color="Cultured"
+            ></v-textarea>
+            <v-row justify="start" class="px-8 mb-8">
+              <span class="t18400 mt-2"> INDEX </span>
+              <v-card outlined class="br-10 ml-15">
+                <v-item-group v-model="product.noindex" mandatory>
+                  <v-item v-slot="{ active, toggle }" :value="true">
                     <v-btn
-                      width="94"
-                      height="40"
+                      width="100"
                       depressed
                       rounded
                       class="br-10"
@@ -190,10 +261,9 @@
                       >
                     </v-btn>
                   </v-item>
-                  <v-item v-slot="{ active, toggle }" value="available">
+                  <v-item v-slot="{ active, toggle }" :value="false">
                     <v-btn
-                      width="94"
-                      height="40"
+                      width="100"
                       depressed
                       rounded
                       class="br-10"
@@ -208,18 +278,14 @@
                   </v-item>
                 </v-item-group>
               </v-card>
-              <span class="t18400 mt-2"> INDEX </span>
             </v-row>
-            <v-row justify="end" class="px-8 mt-6 mb-2">
-              <v-card outlined class="br-10 ml-11" max-height="40" width="194">
-                <v-item-group
-                  v-model="available"
-                  active-class="btn2_toggle-plp"
-                >
-                  <v-item v-slot="{ active, toggle }" value="all">
+            <v-row justify="start" class="px-8">
+              <span class="t18400 mt-2"> ROBOTS </span>
+              <v-card outlined class="br-10 ml-11">
+                <v-item-group v-model="product.unfollow">
+                  <v-item v-slot="{ active, toggle }" :value="true">
                     <v-btn
-                      width="94"
-                      height="40"
+                      width="100"
                       depressed
                       rounded
                       class="br-10"
@@ -232,10 +298,9 @@
                       >
                     </v-btn>
                   </v-item>
-                  <v-item v-slot="{ active, toggle }" value="available">
+                  <v-item v-slot="{ active, toggle }" :value="false">
                     <v-btn
-                      width="94"
-                      height="40"
+                      width="100"
                       depressed
                       rounded
                       class="br-10"
@@ -250,77 +315,10 @@
                   </v-item>
                 </v-item-group>
               </v-card>
-              <span class="t18400 mt-2"> ROBOTS </span>
             </v-row>
-          </div>
-
-          <div class="box-card mr-10 mt-15 py-5 pt-8">
-            <v-row justify="space-between" class="px-8 pb-2">
-              <FAQA />
-
-              <span class="t18400 mt-2"> FAQA </span>
-            </v-row>
-          </div>
+          </v-card>
         </v-col>
-        <v-col cols="6">
-          <div class="box-card mr-10 py-4 pt-8">
-            <div>
-              <div class="pl-14 text-left">
-                <span class="t18400 black--text">Meta Keyword</span>
-              </div>
-              <div class="mx-12 ml-14 mt-3">
-                <v-text-field
-                  color="black"
-                  label="Meta Keyword"
-                  class="br-10"
-                  filled
-                  dense
-                ></v-text-field>
-              </div>
-              <div class="pl-14 text-left">
-                <span class="t18400 black--text">Meta Title</span>
-              </div>
-              <div class="mx-12 ml-14 mt-3">
-                <v-text-field
-                  v-model="product.metaTitle"
-                  color="black"
-                  label="Meta Title"
-                  class="br-10"
-                  filled
-                  dense
-                ></v-text-field>
-              </div>
-              <div class="pl-14 text-left">
-                <span class="t18400 black--text">Meta Description</span>
-              </div>
-              <div class="mx-12 ml-14 mt-3">
-                <v-textarea
-                  v-model="product.metaDescription"
-                  color="black"
-                  label="Meta Description"
-                  class="br-10"
-                  filled
-                  dense
-                ></v-textarea>
-              </div>
-              <div class="pl-14 text-left">
-                <span class="t18400 black--text">Canonical</span>
-              </div>
-              <div class="mx-12 ml-14 mt-3">
-                <v-text-field
-                  v-model="product.canonical"
-                  color="black"
-                  label="Canonical"
-                  class="br-10"
-                  filled
-                  dense
-                ></v-text-field>
-              </div>
-            </div>
-          </div>
-        </v-col>
-
-        <v-col cols="10">
+        <v-col cols="12">
           <v-row justify="end" class="px-13 my-10">
             <v-btn
               @click="$router.push('/')"
@@ -376,13 +374,18 @@ export default {
       loading: false,
       product: {
         name: "",
+        url: "",
         category: "",
         collection: "",
+        description: "",
+        metaTags: "",
         metaTitle: "",
         metaDescription: "",
         canonical: "",
-        url: "",
-        description: "",
+        pageTitle: "",
+        schema: "",
+        noindex: "",
+        unfollow: "",
       },
       productById: "",
       modalRemoveConfirmationNeed: {
@@ -397,13 +400,11 @@ export default {
         class: "btn_delete-card",
         small: false,
       },
+      items: [],
     };
   },
 
   methods: {
-    test() {
-      console.log(this.pre);
-    },
     imageToBase64() {
       this.pre.image = this.image;
       var imageFile = this.image;
@@ -450,18 +451,18 @@ export default {
       this.$refs.addProduct.validate();
       setTimeout(() => {
         if (this.valid) {
-          this.createProduct();
+          this.editProduct();
         }
       }, 200);
     },
-    createProduct() {
+    editProduct() {
       this.loading = true;
       axios({
         method: "put",
         url:
           process.env.apiUrl +
-          "product/admin/" +
-          this.$store.getters["public/get_producEdit"].id +
+          "product/admin/" + this.$route.params.id
+            +
           "/",
         headers: {
           Authorization: "Bearer " + this.$cookies.get("token"),
@@ -469,16 +470,22 @@ export default {
         },
         data: {
           name: this.product.name,
-          meta_description: this.product.metaDescription,
-          meta_title: this.product.metaTitle,
-          canonical: this.product.canonical,
           url: this.product.url,
           collection: this.product.collection,
+          description: this.product.description,
+          meta_tags: this.product.metaTags,
+          meta_title: this.product.metaTitle,
+          meta_description: this.product.metaDescription,
+          canonical: this.product.canonical,
+          page_title: this.product.pageTitle,
+          schema: this.product.schema,
+          unfollow: this.product.unfollow,
+          noindex: this.product.noindex,
         },
       })
         .then((response) => {
           this.loading = false;
-          this.categoryAssignment(response.data.id);
+          // this.categoryAssignment(response.data.id);
           // this.main.forEach(element => {
           //     this.uploadImage(element, response.data.id)
           // });
@@ -489,25 +496,24 @@ export default {
           this.loading = false;
         });
     },
-    categoryAssignment(id) {
-      axios({
-        method: "post",
-        url: process.env.apiUrl + "category/admin/assignment/",
-        headers: {
-          Authorization: "Bearer " + this.$cookies.get("token"),
-          "Content-Type": "multipart/form-data",
-        },
-        data: {
-          product: id,
-          category: this.product.category,
-        },
-      })
-        .then((response) => {})
-        .catch((err) => {
-          this.loading = false;
-        });
-    },
-
+    // categoryAssignment(id) {
+    //   axios({
+    //     method: "post",
+    //     url: process.env.apiUrl + "category/admin/assignment/",
+    //     headers: {
+    //       Authorization: "Bearer " + this.$cookies.get("token"),
+    //       "Content-Type": "multipart/form-data",
+    //     },
+    //     data: {
+    //       product: id,
+    //       category: this.product.category,
+    //     },
+    //   })
+    //     .then((response) => {})
+    //     .catch((err) => {
+    //       this.loading = false;
+    //     });
+    // },
     async getProduct(id) {
       const requestHeaders = {
         Authorization: "Bearer " + cookies.get("token"),
@@ -523,6 +529,7 @@ export default {
                 name
                 url
                 description
+                pageTitle
                 mainCategory {
                     id
                     name
@@ -564,6 +571,13 @@ export default {
       this.product.description = this.productById.description
         ? this.productById.description
         : "";
+      this.product.noindex = this.productById.noindex;
+      this.product.unfollow = this.productById.unfollow;
+      this.product.metaTitle = this.productById.metaTitle;
+      this.product.metaDescription = this.productById.metaDescription;
+      this.product.metaTags = this.productById.metaTags;
+      this.product.canonical = this.productById.canonical;
+      this.product.pageTitle = this.productById.pageTitle;
     },
 
     // setForm() {
