@@ -85,6 +85,26 @@
               background-color="Cultured"
             ></v-text-field>
             <v-select
+              v-model="product.categories"
+              :items="categories"
+              :rules="rule"
+              color="black"
+              label="دسته بندی"
+              class="br-10"
+              outlined
+              background-color="Cultured"
+              multiple
+            >
+              <template v-slot:selection="{ item, index }">
+                <v-chip v-if="index === 0">
+                  <span>{{ item.text }}</span>
+                </v-chip>
+                <span v-if="index === 1" class="grey--text text-caption">
+                  (+{{ product.categories.length - 1 }} others)
+                </span>
+              </template>
+            </v-select>
+            <!-- <v-select
               :items="categories"
               v-model="product.category"
               :rules="rule"
@@ -93,8 +113,28 @@
               class="br-10"
               outlined
               background-color="Cultured"
-            ></v-select>
+            ></v-select> -->
             <v-select
+              :items="collections"
+              v-model="product.collections"
+              :rules="rule"
+              color="black"
+              label="کالکشن"
+              class="br-10"
+              outlined
+              background-color="Cultured"
+              multiple
+            >
+              <template v-slot:selection="{ item, index }">
+                <v-chip v-if="index === 0">
+                  <span>{{ item.text }}</span>
+                </v-chip>
+                <span v-if="index === 1" class="grey--text text-caption">
+                  (+{{ product.collections.length - 1 }} دیگر)
+                </span>
+              </template>
+            </v-select>
+            <!-- <v-select
               :items="collections"
               v-model="product.collection"
               color="black"
@@ -102,7 +142,7 @@
               class="br-10"
               outlined
               background-color="Cultured"
-            ></v-select>
+            ></v-select> -->
             <v-textarea
               v-model="product.description"
               color="black"
@@ -126,6 +166,9 @@
             >
               <span class="t14400 white--text"> ساخت محصول </span>
             </v-btn>
+            <!-- <v-btn @click="test">
+
+            </v-btn> -->
           </v-row>
         </v-col>
       </v-row>
@@ -157,12 +200,10 @@ export default {
       loading: false,
       product: {
         name: "",
-        category: "",
-        collection: "",
-        metaTitle: "",
-        metaDescription: "",
-        canonical: "",
         url: "",
+        categories: [],
+        collection: [],
+        description: "",
       },
       modalRemoveConfirmationNeed: {
         needicon: true,
@@ -180,6 +221,9 @@ export default {
   },
 
   methods: {
+    test() {
+      console.log(this.product.categories, this.product.collection);
+    },
     imageToBase64() {
       if (this.image) {
         this.pre.image = this.image;
@@ -224,15 +268,14 @@ export default {
         },
         data: {
           name: this.product.name,
-          meta_description: this.product.metaDescription,
-          meta_title: this.product.metaTitle,
-          canonical: this.product.canonical,
-          url: this.product.url,
-          collection: this.product.collection,
+          url: this.product.name,
+          categories: this.product.categories,
+          collections: this.product.collections,
+          description: this.product.description,
         },
       })
         .then(async (response) => {
-          this.categoryAssignment(response.data.id);
+          // this.categoryAssignment(response.data.id);
           await this.uploadImages(response.data.id);
           this.loading = false;
           this.$router.push("/");
@@ -243,24 +286,24 @@ export default {
         });
     },
 
-    categoryAssignment(id) {
-      axios({
-        method: "post",
-        url: process.env.apiUrl + "category/admin/assignment/",
-        headers: {
-          Authorization: "Bearer " + this.$cookies.get("token"),
-          "Content-Type": "multipart/form-data",
-        },
-        data: {
-          product: id,
-          category: this.product.category,
-        },
-      })
-        .then((response) => {})
-        .catch((err) => {
-          this.loading = false;
-        });
-    },
+    // categoryAssignment(id) {
+    //   axios({
+    //     method: "post",
+    //     url: process.env.apiUrl + "category/admin/assignment/",
+    //     headers: {
+    //       Authorization: "Bearer " + this.$cookies.get("token"),
+    //       "Content-Type": "multipart/form-data",
+    //     },
+    //     data: {
+    //       product: id,
+    //       category: this.product.category,
+    //     },
+    //   })
+    //     .then((response) => {})
+    //     .catch((err) => {
+    //       this.loading = false;
+    //     });
+    // },
 
     async uploadImages(product_id) {
       for (const element of this.main) {

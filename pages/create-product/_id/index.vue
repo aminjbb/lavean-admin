@@ -97,24 +97,54 @@
                 background-color="Cultured"
               ></v-text-field>
               <v-select
+                v-model="product.categories"
                 :items="categories"
-                v-model="product.category"
                 :rules="rule"
                 color="black"
                 label="دسته بندی"
                 class="br-10"
                 outlined
                 background-color="Cultured"
-              ></v-select>
+                multiple
+              >
+                <template v-slot:selection="{ item, index }">
+                  <v-chip v-if="index === 0">
+                    <span>{{ item.text }}</span>
+                  </v-chip>
+                  <span v-if="index === 1" class="grey--text text-caption">
+                    (+{{ product.categories.length - 1 }} دسته بندی دیگر)
+                  </span>
+                </template>
+              </v-select>
               <v-select
+                v-model="product.collections"
                 :items="collections"
-                v-model="product.collection"
+                :rules="rule"
+                color="black"
+                label="دسته بندی"
+                class="br-10"
+                outlined
+                background-color="Cultured"
+                multiple
+              >
+                <template v-slot:selection="{ item, index }">
+                  <v-chip v-if="index === 0">
+                    <span>{{ item.text }}</span>
+                  </v-chip>
+                  <span v-if="index === 1" class="grey--text text-caption">
+                    (+{{ product.categories.length - 1 }} کالکشن دیگر)
+                  </span>
+                </template>
+              </v-select>
+              <!-- <v-select
+                :items="collections"
+                v-model="product.collections"
                 color="black"
                 label="کالکشن"
                 class="br-10"
                 outlined
                 background-color="Cultured"
-              ></v-select>
+              ></v-select> -->
               <v-textarea
                 v-model="product.description"
                 color="black"
@@ -186,12 +216,11 @@
                   :disabled="data.disabled"
                   @click:close="data.parent.selectItem(data.item)"
                 >
-                   
                   {{ data.item }}
                 </v-chip>
               </template>
             </v-combobox>
-            <v-combobox
+            <!-- <v-combobox
               v-model="product.metaTags"
               label="Meta Tags"
               :items="items"
@@ -200,7 +229,7 @@
               outlined
               prepend-inner-icon=""
               background-color="Cultured"
-            ></v-combobox>
+            ></v-combobox> -->
 
             <v-text-field
               v-model="product.metaTitle"
@@ -242,9 +271,8 @@
               outlined
               background-color="Cultured"
             ></v-textarea>
-            <v-row justify="start" class="px-8 mb-8">
-              <span class="t18400 mt-2"> INDEX </span>
-              <v-card outlined class="br-10 ml-15">
+            <v-row justify="space-between" class="mb-8 mt-6">
+              <v-card outlined class="br-10">
                 <v-item-group v-model="product.noindex" mandatory>
                   <v-item v-slot="{ active, toggle }" :value="true">
                     <v-btn
@@ -278,9 +306,6 @@
                   </v-item>
                 </v-item-group>
               </v-card>
-            </v-row>
-            <v-row justify="start" class="px-8">
-              <span class="t18400 mt-2"> ROBOTS </span>
               <v-card outlined class="br-10 ml-11">
                 <v-item-group v-model="product.unfollow">
                   <v-item v-slot="{ active, toggle }" :value="true">
@@ -316,6 +341,7 @@
                 </v-item-group>
               </v-card>
             </v-row>
+            <v-row justify="start" class="px-8"> </v-row>
           </v-card>
         </v-col>
         <v-col cols="12">
@@ -375,10 +401,10 @@ export default {
       product: {
         name: "",
         url: "",
-        category: "",
-        collection: "",
+        categories: [],
+        collections: [],
         description: "",
-        metaTags: "",
+        metaTags: [],
         metaTitle: "",
         metaDescription: "",
         canonical: "",
@@ -460,10 +486,7 @@ export default {
       axios({
         method: "put",
         url:
-          process.env.apiUrl +
-          "product/admin/" + this.$route.params.id
-            +
-          "/",
+          process.env.apiUrl + "product/admin/" + this.$route.params.id + "/",
         headers: {
           Authorization: "Bearer " + this.$cookies.get("token"),
           // "Content-Type": "multipart/form-data",
@@ -471,9 +494,12 @@ export default {
         data: {
           name: this.product.name,
           url: this.product.url,
-          collection: this.product.collection,
+          categories: this.product.categories,
+          collections: this.product.collections,
           description: this.product.description,
-          meta_tags: this.product.metaTags,
+          meta_tags: this.product.metaTags
+            ? this.product.metaTags.toString()
+            : "",
           meta_title: this.product.metaTitle,
           meta_description: this.product.metaDescription,
           canonical: this.product.canonical,
@@ -530,11 +556,12 @@ export default {
                 url
                 description
                 pageTitle
-                mainCategory {
-                    id
-                    name
-                }
-                collection {
+                schema
+                categories {
+                   name
+                   id
+                 }
+                collections {
                     id
                     name
                 }
@@ -561,13 +588,18 @@ export default {
       this.productById = result.adminProductById;
       this.product.name = this.productById.name;
       this.product.url = this.productById.url;
-      this.product.category = this.productById.category;
-      this.product.category = this.productById.mainCategory
-        ? this.productById.mainCategory.id
-        : "";
-      this.product.collection = this.productById.collection
-        ? this.productById.collection.id
-        : "";
+      const productCategories = [];
+      this.productById.categories.forEach((element) => {
+       
+        productCategories.push(element.id);
+      });
+      this.product.categories = productCategories;
+      const productCollections = [];
+      this.productById.collections.forEach((element) => {
+         
+        productCollections.push(element.id);
+      });
+      this.product.collections = productCollections;
       this.product.description = this.productById.description
         ? this.productById.description
         : "";
@@ -575,9 +607,10 @@ export default {
       this.product.unfollow = this.productById.unfollow;
       this.product.metaTitle = this.productById.metaTitle;
       this.product.metaDescription = this.productById.metaDescription;
-      this.product.metaTags = this.productById.metaTags;
+      this.product.metaTags = this.productById.metaTags ? this.productById.metaTags.split(",") : "";
       this.product.canonical = this.productById.canonical;
       this.product.pageTitle = this.productById.pageTitle;
+      this.product.schema = this.productById.schema;
     },
 
     // setForm() {
@@ -604,6 +637,13 @@ export default {
     image(val) {
       console.log(val);
       this.imageToBase64();
+    },
+    "product.metaTags"(val) {
+      const test = val ? val : "";
+      console.log(test.toString(), "test");
+      // let array1 = [1, 2, "a", "1a"];
+      // console.log(this.product.metaTags);
+      // console.log(array1.toString());
     },
   },
 

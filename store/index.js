@@ -348,7 +348,7 @@ export const actions = {
                     canonical,
                     schema,
                     url,
-                    collection{
+                    collections{
                         name,
                         id
                     }
