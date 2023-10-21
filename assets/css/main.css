@@ -1356,3 +1356,7 @@ ol li {
     left: 5px;
 }
 
+.close_chip-btn .v-chip__close {
+  margin-left: 0 !important;
+  padding-left: 24px;
+}

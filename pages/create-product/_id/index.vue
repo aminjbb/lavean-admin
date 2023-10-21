@@ -1,8 +1,8 @@
 <template>
   <div class="rcontainer">
     <v-form v-model="valid" ref="addProduct">
-      <v-row justify="center" class="mt-15 pt-10">
-        <v-col cols="6">
+      <v-row justify="center" class="mt-15 pt-10 ma-0">
+        <v-col cols="12" md="6">
           <v-row justify="center">
             <v-card elevation="0" outlined class="position__relative br-25">
               <v-img
@@ -71,12 +71,12 @@
                 :itemName="item.caption"
                 :modalRemoveConfirmationNeed="modalRemoveConfirmationNeed"
                 :image="baseUrl + '/media/' + item.imageThumbnail.medium"
-                @doSomthing="deleteImage(item.image)"
+                @doSomthing="deleteImage(item.id)"
               />
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="6">
+        <v-col cols="12" md="6">
           <v-from v-model="valid" ref="product">
             <div>
               <v-text-field
@@ -136,15 +136,7 @@
                   </span>
                 </template>
               </v-select>
-              <!-- <v-select
-                :items="collections"
-                v-model="product.collections"
-                color="black"
-                label="کالکشن"
-                class="br-10"
-                outlined
-                background-color="Cultured"
-              ></v-select> -->
+              
               <v-textarea
                 v-model="product.description"
                 color="black"
@@ -157,45 +149,9 @@
           </v-from>
         </v-col>
       </v-row>
-      <v-row justify="start" class="mt-15 pt-10">
-        <v-col cols="6">
-          <!-- <div class="box-card mr-10 py-15 pt-8">
-            <v-row justify="center">
-              <v-col cols="9">
-                <v-text-field
-                  color="black"
-                  label="Past URL"
-                  class="br-10 py-2"
-                  hide-details
-                  filled
-                  dense
-                ></v-text-field>
-
-                <v-text-field
-                  v-model="product.url"
-                  color="black"
-                  label="New URL"
-                  class="br-10"
-                  py-1
-                  hide-details
-                  filled
-                  dense
-                ></v-text-field>
-
-                <v-text-field
-                  color="black"
-                  label="page"
-                  class="br-10 py-2"
-                  hide-details
-                  filled
-                  dense
-                ></v-text-field>
-              </v-col>
-              <v-col cols="2">
-                <span class="t18400">Redirect</span>
-              </v-col>
-            </v-row>
-          </div> -->
+      <v-row justify="start" class="mt-15 pt-10 ma-0">
+        <v-col cols="12" md="6">
+         
           <v-card outlined class="br-10 pa-6 dir-ltr">
             <v-combobox
               v-model="product.metaTags"
@@ -214,22 +170,15 @@
                   v-bind="data.attrs"
                   :input-value="data.selected"
                   :disabled="data.disabled"
+                  close
+                  class="close_chip-btn"
                   @click:close="data.parent.selectItem(data.item)"
                 >
                   {{ data.item }}
                 </v-chip>
               </template>
             </v-combobox>
-            <!-- <v-combobox
-              v-model="product.metaTags"
-              label="Meta Tags"
-              :items="items"
-              multiple
-              class="br-10"
-              outlined
-              prepend-inner-icon=""
-              background-color="Cultured"
-            ></v-combobox> -->
+           
 
             <v-text-field
               v-model="product.metaTitle"
@@ -306,7 +255,7 @@
                   </v-item>
                 </v-item-group>
               </v-card>
-              <v-card outlined class="br-10 ml-11">
+              <v-card outlined class="br-10 ">
                 <v-item-group v-model="product.unfollow">
                   <v-item v-slot="{ active, toggle }" :value="true">
                     <v-btn
@@ -522,24 +471,7 @@ export default {
           this.loading = false;
         });
     },
-    // categoryAssignment(id) {
-    //   axios({
-    //     method: "post",
-    //     url: process.env.apiUrl + "category/admin/assignment/",
-    //     headers: {
-    //       Authorization: "Bearer " + this.$cookies.get("token"),
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //     data: {
-    //       product: id,
-    //       category: this.product.category,
-    //     },
-    //   })
-    //     .then((response) => {})
-    //     .catch((err) => {
-    //       this.loading = false;
-    //     });
-    // },
+     
     async getProduct(id) {
       const requestHeaders = {
         Authorization: "Bearer " + cookies.get("token"),
@@ -572,6 +504,7 @@ export default {
                 unfollow
                 images {
                     caption
+                    id
                     imageThumbnail {
                         low
                          medium
@@ -613,24 +546,25 @@ export default {
       this.product.schema = this.productById.schema;
     },
 
-    // setForm() {
-    //   try {
-    //     let product = this.$store.getters["public/get_producEdit"];
-    //     console.log(this.product);
-    //     this.product.name = product.name;
-    //     this.product.metaTitle = product.metaTitle;
-    //     this.product.metaDescription = product.metaDescription;
-    //     this.product.canonical = product.canonical;
-    //     this.product.url = product.url;
+    deleteImage(id){
+      axios({
+        method: "delete",
+        url:
+          process.env.apiUrl + "image/admin/" + id + "/",
+        headers: {
+          Authorization: "Bearer " + this.$cookies.get("token"),
+          // "Content-Type": "multipart/form-data",
+        },
+      })
+        .then((response) => {
+          this.getProduct(this.$route.params.id);
+          
+        })
+        .catch((err) => {
+        });
+    }
 
-    //     if (product.mainCategory) {
-    //       this.product.category = product.mainCategory.id;
-    //     }
-    //     if (product.collection) {
-    //       this.product.collection = product.collection.id;
-    //     }
-    //   } catch (error) {}
-    // },
+   
   },
 
   watch: {
@@ -638,13 +572,7 @@ export default {
       console.log(val);
       this.imageToBase64();
     },
-    "product.metaTags"(val) {
-      const test = val ? val : "";
-      console.log(test.toString(), "test");
-      // let array1 = [1, 2, "a", "1a"];
-      // console.log(this.product.metaTags);
-      // console.log(array1.toString());
-    },
+     
   },
 
   beforeMount() {
