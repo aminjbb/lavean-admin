@@ -1,6 +1,6 @@
 import axios from 'axios'
 import cookies from 'vue-cookies'
-import {gql} from 'nuxt-graphql-request';
+import { gql } from 'nuxt-graphql-request';
 
 export const strict = false
 export const state = () => ({
@@ -80,7 +80,7 @@ export const mutations = {
 
 
 export const actions = {
-    async set_customer({commit}, id) {
+    async set_customer({ commit }, id) {
         const requestHeaders = {
             Authorization: "Bearer " + cookies.get("token"),
         };
@@ -147,7 +147,7 @@ export const actions = {
         const obj = await this.$graphql.default.request(query, {}, requestHeaders);
         commit('set_customer', obj.adminCustomer);
     },
-    async set_customers({commit}, form) {
+    async set_customers({ commit }, form) {
         const requestHeaders = {
             Authorization: "Bearer " + cookies.get("token"),
         };
@@ -216,7 +216,7 @@ export const actions = {
         commit('set_userPageLength', Math.round(obj.adminCustomers.totalCount / 20));
         commit('set_customers', obj.adminCustomers.results);
     },
-    async set_blog({commit}, id) {
+    async set_blog({ commit }, id) {
         const requestHeaders = {
             Authorization: "Bearer " + cookies.get("token"),
         };
@@ -238,7 +238,7 @@ export const actions = {
         const obj = await this.$graphql.default.request(query, {}, requestHeaders);
         commit('set_blog', obj.adminBlogPost);
     },
-    async set_blogs({commit}, form) {
+    async set_blogs({ commit }, form) {
         const requestHeaders = {
             Authorization: "Bearer " + cookies.get("token"),
         };
@@ -268,7 +268,7 @@ export const actions = {
         commit('set_blogPageLength', Math.round(obj.adminBlogPosts.totalCount / 20));
         commit('set_blogs', obj.adminBlogPosts.results);
     },
-    async set_orders({commit}, form) {
+    async set_orders({ commit }, form) {
         const requestHeaders = {
             Authorization: "Bearer " + cookies.get("token"),
         };
@@ -291,6 +291,18 @@ export const actions = {
                         name
                     },
                     details{
+                        variant {
+                            branch {
+                              name
+                            }
+                            product {
+                              imageCover {
+                                imageThumbnail {
+                                  medium
+                                }
+                              }
+                            }
+                          }
                         variantName,
                         variantUnitPriceWithoutDiscount,
                         variantUnitPrice
@@ -315,7 +327,7 @@ export const actions = {
         commit('set_orderPageLength', Math.round(obj.adminOrders.totalCount / 20));
         commit('set_orders', obj.adminOrders.results);
     },
-    async set_blogCategorys({commit}, form) {
+    async set_blogCategorys({ commit }, form) {
         const requestHeaders = {
             Authorization: "Bearer " + cookies.get("token"),
         };
@@ -331,7 +343,7 @@ export const actions = {
         const obj = await this.$graphql.default.request(query, {}, requestHeaders);
         commit('set_blogCategorys', obj.adminBlogCategories.results);
     },
-    async set_products({commit}, form) {
+    async set_products({ commit }, form) {
         const requestHeaders = {
             Authorization: "Bearer " + cookies.get("token"),
         };
@@ -387,7 +399,7 @@ export const actions = {
         commit('set_variantPageLength', Math.round(obj.adminVariants.totalCount / 200));
         commit('set_variants', obj.adminVariants.results);
     },
-    async set_categories({commit}, form) {
+    async set_categories({ commit }, form) {
         const requestHeaders = {
             Authorization: "Bearer " + cookies.get("token"),
         };
@@ -409,7 +421,7 @@ export const actions = {
         const obj = await this.$graphql.default.request(query, {}, requestHeaders);
         commit('set_categories', obj.adminProductCategories.results);
     },
-    async set_collections({commit}, form) {
+    async set_collections({ commit }, form) {
         const requestHeaders = {
             Authorization: "Bearer " + cookies.get("token"),
         };
@@ -426,7 +438,7 @@ export const actions = {
         const obj = await this.$graphql.default.request(query, {}, requestHeaders);
         commit('set_collections', obj.adminCollections.results);
     },
-    async set_branches({commit}, form) {
+    async set_branches({ commit }, form) {
         const requestHeaders = {
             Authorization: "Bearer " + cookies.get("token"),
         };
