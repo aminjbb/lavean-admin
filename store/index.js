@@ -282,12 +282,15 @@ export const actions = {
                     delivery{
                         id,
                         name
+                        logo
                     }
                     address{
                         addressDetail
                     }
                     createdAt,
                     currentStatus{
+                        colorCode
+                        isDark
                         name
                     },
                     details{

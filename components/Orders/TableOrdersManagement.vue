@@ -7,13 +7,61 @@
       class="elevation-0"
       hide-default-footer
     >
-      <!-- <template v-slot:item.main_title="{ item }"> </template> -->
+      <template v-slot:item.image="{ item }">
+        <v-col class="d-flex justify-center">
+          <v-img
+            aspect-ratio="1"
+            max-width="70"
+            class="br-15"
+            v-if="item.details[0].variant"
+            :src="
+              imageUrl +
+              item.details[0].variant.product.imageCover.imageThumbnail.medium
+            "
+          ></v-img>
+        </v-col>
+      </template>
+      <template v-slot:item.mobile="{ item }">
+        <v-row class="ma-0" align="center" justify="center">
+          <v-icon> mdi-cellphone </v-icon>
+          <span>
+            {{ item.customer.client.mobile }}
+          </span>
+        </v-row>
+      </template>
+      <template v-slot:item.delivery="{ item }">
+        <v-row class="ma-0" align="center" justify="center">
+          <v-icon> mdi-map-marker-outline </v-icon>
+          <span>
+            {{ item.delivery.name }}
+          </span>
+        </v-row>
+      </template>
+      <template v-slot:item.status="{ item }">
+        <v-col>
+          <v-chip
+            label
+            class=""
+            :color="item.currentStatus.colorCode"
+            :dark="item.currentStatus.isDark"
+          >
+            {{ item.currentStatus.name }}
+          </v-chip>
+        </v-col>
+      </template>
+      <template v-slot:item.detail="{ item }">
+        <ModalManageOrder :item="item" />
+      </template>
     </v-data-table>
   </v-card>
 </template>
 
 <script>
+import ModalManageOrder from "../../components/Orders/ModalManageOrder.vue";
 export default {
+  components: {
+    ModalManageOrder,
+  },
   props: {
     orders: "",
   },
@@ -25,127 +73,73 @@ export default {
           align: "end",
           sortable: false,
           value: "id",
-          width: "50",
+          width: "30",
+        },
+        {
+          text: "تصویر",
+          align: "center",
+          sortable: false,
+          value: "image",
+          width: "100",
+        },
+
+        {
+          text: "نام محصول",
+          align: "end",
+          sortable: false,
+          value: "details[0].variantName",
+          width: "150",
+          cellClass: "t14600",
         },
         {
           text: "مشتری",
-          align: "end",
+          align: "center",
           sortable: false,
-          value: "name",
-          width: "150",
+          value: "customer.client.user.firstName",
+          width: "200",
         },
         {
           text: "شماره تماس",
           align: "center",
           sortable: false,
-          value: "name",
+          value: "mobile",
           width: "100",
         },
         {
           text: "نوع ارسال",
           align: "center",
           sortable: false,
-          value: "name",
+          value: "delivery",
           width: "100",
         },
         {
           text: "وضعیت",
           align: "center",
           sortable: false,
-          value: "name",
+          value: "status",
           width: "100",
         },
         {
           text: "جزییات",
           align: "center",
           sortable: false,
-          value: "name",
+          value: "detail",
           width: "50",
         },
       ],
-      desserts: [
-        {
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: 1,
-        },
-        {
-          name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          iron: 1,
-        },
-        {
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          iron: 7,
-        },
-        {
-          name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          iron: 8,
-        },
-        {
-          name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          iron: 16,
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          iron: 0,
-        },
-        {
-          name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          iron: 2,
-        },
-        {
-          name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          iron: 45,
-        },
-        {
-          name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          iron: 22,
-        },
-        {
-          name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          iron: 6,
-        },
-      ],
     };
+  },
+  computed: {
+    imageUrl() {
+      return process.env.imageUrl;
+    },
+    orderClientName(e) {
+      try {
+        return e.customer.client.user.firstName;
+      } catch (error) {
+        return "";
+      }
+    },
   },
 };
 </script>
