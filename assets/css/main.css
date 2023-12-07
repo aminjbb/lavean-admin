@@ -25,6 +25,8 @@ body {
   color: #263742 !important;
 }
 
+tr:nth-child(even) {background-color: #F8F1E5;}
+
 .hide-prev-next .v-pagination__navigation {
   display: none;
 }

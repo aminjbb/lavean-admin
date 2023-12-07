@@ -123,10 +123,6 @@ export default {
 
   computed: {
     orders() {
-      console.log(
-        this.$store.getters["get_orders"],
-        "this.$store.getters['get_orders']"
-      );
       return this.$store.getters["get_orders"];
     },
 

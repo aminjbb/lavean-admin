@@ -286,6 +286,11 @@ export const actions = {
                     }
                     address{
                         addressDetail
+                        city {
+                            province {
+                              name
+                            }
+                          }
                     }
                     createdAt,
                     currentStatus{
