@@ -1,24 +1,41 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="details"
-    :items-per-page="1"
-    hide-default-footer
-    class="elevation-0"
-  >
-    <template v-slot:item.image="{ item }">
-      <v-col class="d-flex justify-start">
-        <v-img
-          aspect-ratio="1"
-          max-width="70"
-          class="br-15"
-          :src="
-            imageUrl + item.variant.product.imageCover.imageThumbnail.medium
-          "
-        ></v-img>
-      </v-col>
-    </template>
-  </v-data-table>
+  <div>
+    <v-data-table
+      :headers="headers"
+      :items="details"
+      :items-per-page="-1"
+      hide-default-footer
+      class="elevation-0"
+    >
+      <template v-slot:item.image="{ item }">
+        <v-col class="d-flex justify-start">
+          <v-img
+            aspect-ratio="1"
+            max-width="70"
+            class="br-15"
+            :src="
+              imageUrl + item.variant.product.imageCover.imageThumbnail.medium
+            "
+          ></v-img>
+        </v-col>
+      </template>
+      <template v-slot:item.name="{ item }">
+        <span>
+          {{ item.variantName }}
+        </span>
+      </template>
+      <template v-slot:item.price="{ item }">
+        <span>
+          {{ splitChar(item.variantUnitPrice) }}
+        </span>
+      </template>
+    </v-data-table>
+    <v-divider class="my-4"></v-divider>
+    <v-row class="ma-0 pa-3" align="center" justify="end">
+      <span>مبلغ کل : </span>
+      <span class="mr-3">{{ splitChar(this.order.finalPrice) }} تومانءء</span>
+    </v-row>
+  </div>
 </template>
 
 <script>
@@ -35,20 +52,20 @@ export default {
           sortable: false,
           value: "image",
           width: "30",
-          cellClass: 'justify-start'
+          cellClass: "justify-start",
         },
         {
           text: "نام محصول",
           align: "end",
           sortable: false,
-          value: "time",
-          width: "30",
+          value: "name",
+          width: "100",
         },
         {
           text: "قیمت ",
-          align: "end",
+          align: "center",
           sortable: false,
-          value: "time",
+          value: "price",
           width: "30",
         },
       ],
@@ -145,6 +162,15 @@ export default {
         return this.order.details;
       } catch (error) {
         return "";
+      }
+    },
+  },
+  methods: {
+    splitChar(text) {
+      if (text) {
+        return text.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      } else {
+        return text;
       }
     },
   },

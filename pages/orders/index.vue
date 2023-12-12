@@ -19,7 +19,7 @@
       <v-col>
         <TableOrdersManagement :orders="orders" />
       </v-col>
-      <v-card
+      <!-- <v-card
         height="103"
         outlined
         class="ma-3 mx-10 br-15"
@@ -81,20 +81,20 @@
               align="center"
               class="fill-height mt-3 mr-5 pl-10"
             >
-              <!-- <span>
-                                <v-btn icon>
-                                    <img src="~/assets/img/edit.svg" alt="">
-                                </v-btn>
-                            </span>
-                            <span class="mr-5">
-                                <v-btn icon>
-                                    <img src="~/assets/img/trash-2.svg" alt="">
-                                </v-btn>
-                            </span> -->
+              <span>
+                <v-btn icon>
+                  <img src="~/assets/img/edit.svg" alt="" />
+                </v-btn>
+              </span>
+              <span class="mr-5">
+                <v-btn icon>
+                  <img src="~/assets/img/trash-2.svg" alt="" />
+                </v-btn>
+              </span>
             </v-row>
           </v-col>
         </v-row>
-      </v-card>
+      </v-card> -->
 
       <div class="text-center mt-5">
         <v-pagination

@@ -14,7 +14,7 @@
          <span v-if="item.address && item.address.city && item.address.city.province">
           {{ item.address.city.province.name }}
          </span>
-      </template>
+      </template> 
       <!-- <template v-slot:item.image="{ item }">
         <v-col class="d-flex justify-center">
           <v-img

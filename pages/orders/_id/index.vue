@@ -15,15 +15,20 @@
       <v-divider></v-divider>
       <v-row class="ma-0">
         <v-col cols="6">
-          <v-card outlined>
-            <OrderDetail :order="this.order"/>
+          <v-card outlined >
+            <OrderDetail2 :order="this.order" />
           </v-card>
           <v-card outlined class="mt-4">
-            <OrderDetail2 :order="this.order"/>
+            <OrderChangeStatus :statuses="this.statuses" />
           </v-card>
         </v-col>
         <v-col cols="6">
-          <OrderCustomerDetail :order="this.order"/>
+          <v-card outlined>
+            <OrderDetail :order="this.order" />
+          </v-card>
+          <v-card outlined class="mt-4">
+            <OrderCustomerDetail :order="this.order" />
+          </v-card>
         </v-col>
       </v-row>
     </v-card>
@@ -35,16 +40,19 @@ import { gql } from "nuxt-graphql-request";
 import OrderDetail from "~/components/Orders/OrderDetail.vue";
 import OrderDetail2 from "~/components/Orders/OrderDetail2.vue";
 import OrderCustomerDetail from "~/components/Orders/OrderCustomerDetail.vue";
+import OrderChangeStatus from "~/components/Orders/OrderChangeStatus.vue";
 export default {
   components: {
     OrderDetail,
     OrderDetail2,
     OrderCustomerDetail,
+    OrderChangeStatus,
   },
 
   data() {
     return {
       order: "",
+      statuses: "",
     };
   },
   computed: {
@@ -119,6 +127,8 @@ export default {
             }
             customer {
               nationalCode
+              birthdate
+              sex
               client {
                 mobile
                 user {
@@ -156,15 +166,43 @@ export default {
       );
       const data = await this.$graphql.default.request(query);
       if (data) {
-        
         this.order = data.adminOrder;
         console.log(this.order, "data");
+      }
+    },
+    async getStatusOrder() {
+      const query = gql`
+        query {
+          adminOrderStatuses {
+            results {
+              colorCode
+              id
+              isDark
+              isDefault
+              isDeleted
+              isFinishedStatus
+              isPayable
+              isReduceQuantity
+              name
+            }
+          }
+        }
+      `;
+      this.$graphql.default.setHeader(
+        "Authorization",
+        "Bearer ".concat(this.$cookies.get("token"))
+      );
+      const data = await this.$graphql.default.request(query);
+      if (data) {
+        this.statuses = data.adminOrderStatuses.results;
+        console.log(this.statuses);
       }
     },
   },
   beforeMount() {
     let orderID = this.$route.params.id;
     this.getorder(orderID);
+    this.getStatusOrder();
   },
 };
 </script>
