@@ -12,7 +12,7 @@
       <v-col cols="6">
         <v-textarea outlined label="پیام ادمین" class="br-10"></v-textarea>
         <v-row class="ma-0">
-            <v-btn @>ارسال</v-btn>
+          <v-btn @>ارسال</v-btn>
         </v-row>
       </v-col>
       <v-col cols="6">
@@ -32,13 +32,11 @@
         <span> شهر </span>
       </span> -->
       <span class="d-block mt-4"> آدرس : {{ userOrderAddressDetail }}</span>
-      <span>
+      <!-- <span>
         <span> پلاک : </span>
       <span> واحد : </span>
-      </span>
-      <span>
-        کد پستی : {{}}
-      </span>
+      </span> -->
+      <span> کد پستی : {{ userOrderAddressPostalCode }} </span>
     </div>
   </div>
 </template>
@@ -47,6 +45,7 @@
 export default {
   props: {
     order: "",
+    
   },
   computed: {
     userName() {
@@ -75,7 +74,7 @@ export default {
     },
     userOrderAddressPostalCode() {
       try {
-        return this.order.address.addressDetail;
+        return this.order.address.postalCode;
       } catch (error) {
         ("");
       }
