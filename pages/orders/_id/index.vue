@@ -8,18 +8,22 @@
           -
           <span>{{ name }}</span>
         </span>
-        <v-chip label class="" :color="colorCode" :dark="isDark">
+        <v-chip label class="" :color="'#' + colorCode" :dark="isDark">
           {{ currentStatus }}
         </v-chip>
       </v-row>
       <v-divider></v-divider>
       <v-row class="ma-0">
         <v-col cols="6">
-          <v-card outlined >
+          <v-card outlined>
             <OrderDetail2 :order="this.order" />
           </v-card>
           <v-card outlined class="mt-4">
-            <OrderChangeStatus :statuses="this.statuses" />
+            <OrderChangeStatus
+              :statuses="this.statuses"
+              :statusesLog="statusesLog"
+              @getOrderAgain="getOrderAgain"
+            />
           </v-card>
         </v-col>
         <v-col cols="6">
@@ -51,8 +55,10 @@ export default {
 
   data() {
     return {
+      orderID: "",
       order: "",
       statuses: "",
+      statusesLog: [],
     };
   },
   computed: {
@@ -140,6 +146,23 @@ export default {
             }
             finalPrice
             id
+             statusLog {
+      addedAt
+      id
+      status {
+        colorCode
+        isDark
+        name
+      }
+      addedBy {
+        client {
+          user {
+            firstName
+            lastName
+          }
+        }
+      }
+    }
             details{
                 variant {
                     branch {
@@ -167,6 +190,7 @@ export default {
       const data = await this.$graphql.default.request(query);
       if (data) {
         this.order = data.adminOrder;
+        this.statusesLog = data.adminOrder.statusLog;
         console.log(this.order, "data");
       }
     },
@@ -198,10 +222,13 @@ export default {
         console.log(this.statuses);
       }
     },
+    getOrderAgain(){
+      this.getorder(this.orderID)
+    }
   },
   beforeMount() {
-    let orderID = this.$route.params.id;
-    this.getorder(orderID);
+    this.orderID = this.$route.params.id;
+    this.getorder(this.orderID);
     this.getStatusOrder();
   },
 };

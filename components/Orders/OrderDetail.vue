@@ -21,7 +21,7 @@
         v-if="item.currentStatus"
           label
           class=""
-          :color="item.currentStatus.colorCode"
+          :color="'#' + item.currentStatus.colorCode"
           :dark="item.currentStatus.isDark"
         >
           {{ item.currentStatus.name }}
