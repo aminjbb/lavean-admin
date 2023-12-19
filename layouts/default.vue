@@ -1,7 +1,6 @@
 <template>
   <v-app dark>
     <v-app-bar fixed app flat>
-     
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-spacer />
     </v-app-bar>

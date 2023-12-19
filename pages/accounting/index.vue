@@ -1,14 +1,15 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col class="px-6" cols="12">
-      <v-card height="64" color="#616161" class="mt-10">
-        <v-row>
-          <span class="white--text ma-5 mx-15 t18600"> لیست حسابداری </span>
-        </v-row>
-      </v-card>
-      <TableAccounting />
+  <div>
+    <v-card class="d-flex align-center" height="64" color="#616161" >
+      
+        <span class="white--text ma-5 mx-15 t18600"> لیست حسابداری </span>
+      
+    </v-card>
+    <v-row class="ma-0" justify="center" align="center">
+      <v-col class="px-6" cols="12">
+        <TableAccounting class="mt-3" />
 
-      <v-card height="103" class="mx-10 mt-5 br-15" outlined>
+        <!-- <v-card height="103" class="mx-10 mt-5 br-15" outlined>
         <v-row justify="space-between" class="pt-8 px-10">
           <v-col cols="3">
             <v-text-field
@@ -70,9 +71,10 @@
           circle
           color="black"
         ></v-pagination>
-      </div>
-    </v-col>
-  </v-row>
+      </div> -->
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>

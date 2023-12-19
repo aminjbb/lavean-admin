@@ -1,15 +1,19 @@
 <template>
-  <v-data-table
-    v-model="selected"
+  <v-card outlined elevation="0">
+    <v-data-table
+    v-model="selectedWebhesab"
     item-key="id"
+    value="id"
     show-select
     :headers="headers"
     :items="variants"
     :items-per-page="200"
     hide-default-footer
+    fixed-header
+    height="65vh"
   >
     <template v-slot:top>
-      <v-row justify="space-between" class="pt-8 px-10">
+      <v-row justify="space-between" class="ma-0 pa-3">
         <v-col cols="3">
           <v-text-field
             v-model="nameFilter"
@@ -20,19 +24,19 @@
             class="br-15"
             filled
             dense
+            hide-details
             @keyup.enter="filterVariants"
           ></v-text-field>
         </v-col>
-        <v-btn fab @click="test">
-          <v-icon>mdi-link-variant</v-icon>
-        </v-btn>
+        <ModalLinkAccountingToProduct :selectedWebhesab="selectedWebhesab" />
       </v-row>
     </template>
-    <template v-slot:item.edit="{ item }">
+    <!-- <template v-slot:item.edit="{ item }">
       <ModalAccounting :variant="variant" />
-    </template>
+    </template> -->
     <template v-slot:footer>
-      <div class="text-center mt-5">
+      <!-- <v-btn @click="test"></v-btn> -->
+      <div class="text-center my-5">
         <v-pagination
           v-model="page"
           :total-visible="5"
@@ -43,21 +47,22 @@
       </div>
     </template>
   </v-data-table>
+  </v-card>
 </template>
 
 <script>
 import axios from "axios";
-import ModalAccounting from "~/components/public/ModalAccounting";
+import ModalLinkAccountingToProduct from "~/components/Accounting/ModalLinkAccountingToProduct.vue";
 export default {
   components: {
-    ModalAccounting,
+    ModalLinkAccountingToProduct,
   },
   data() {
     return {
       message: "",
       page: 1,
       nameFilter: "",
-      selected: [],
+      selectedWebhesab: [],
       headers: [
         {
           text: "وب حساب ID",
@@ -91,8 +96,8 @@ export default {
   },
 
   methods: {
-    test(){
-        console.log(this.selected);
+    test() {
+      console.log(this.selectedWebhesab);
     },
     editProduct(obj) {
       this.$store.commit("public/set_producEdit", obj);
