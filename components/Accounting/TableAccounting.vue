@@ -28,7 +28,7 @@
             @keyup.enter="filterVariants"
           ></v-text-field>
         </v-col>
-        <ModalLinkAccountingToProduct :selectedWebhesab="selectedWebhesab" />
+        <ModalLinkAccountingToProduct :selectedWebhesab.sync="selectedWebhesab" />
       </v-row>
     </template>
     <!-- <template v-slot:item.edit="{ item }">

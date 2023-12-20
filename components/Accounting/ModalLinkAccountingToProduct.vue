@@ -22,8 +22,11 @@
             :key="index"
             label
             outlined
+            close
+            close-icon="mdi-delete"
             color="FunGreen"
             class="ml-2 mb-2"
+            @click:close="remove(item)"
           >
             ({{ item.webhesabId }}) - {{ item.webhesabName }}
           </v-chip>
@@ -85,16 +88,26 @@ import cookies from "vue-cookies";
 import { gql } from "nuxt-graphql-request";
 import axios from "axios";
 export default {
-  props: {
+   props:{
     selectedWebhesab: [],
-  },
+   },
   data() {
     return {
       modalLinkAccountingToProduct: false,
       products: [],
       nameFilter: "",
       items: [],
+      
     };
+  },
+  watch: {
+    selectedWebhesab: {
+      handler(val) {
+        this.$emit("update:selectedWebhesab", val);
+      },
+      deep: true,
+      immediate: true,
+    },
   },
   methods: {
     async filterProduct() {
@@ -129,26 +142,33 @@ export default {
         return item["id"];
       });
       console.log(variantsID.map(Number));
-       console.log(product);
-        axios({
-          method: "put",
-          url: process.env.apiUrl + 'product/admin/bulk_assignment/' + product.id + '/' ,
-          headers: {
-            Authorization: "Bearer " + this.$cookies.get("token"),
-            "Content-Type": "application/json",
-          },
-          data: {
-            variants: variantsID.map(Number),
-          },
+      console.log(product);
+      axios({
+        method: "put",
+        url:
+          process.env.apiUrl +
+          "product/admin/bulk_assignment/" +
+          product.id +
+          "/",
+        headers: {
+          Authorization: "Bearer " + this.$cookies.get("token"),
+          "Content-Type": "application/json",
+        },
+        data: {
+          variants: variantsID.map(Number),
+        },
+      })
+        .then((response) => {
+          this.modalLinkAccountingToProduct = false;
+          this.$store.dispatch("set_variants", "");
+          console.log(response);
         })
-          .then((response) => {
-            this.modalLinkAccountingToProduct = false;
-            this.$store.dispatch("set_variants", "");
-            console.log(response);
-          })
-          .catch((err) => {
-            this.loading = false;
-          });
+        .catch((err) => {
+          this.loading = false;
+        });
+    },
+     remove(item) {
+      this.selectedWebhesab.splice(this.selectedWebhesab.indexOf(item), 1);
     },
   },
   //   beforeMount() {
