@@ -88,16 +88,15 @@ import cookies from "vue-cookies";
 import { gql } from "nuxt-graphql-request";
 import axios from "axios";
 export default {
-   props:{
+  props: {
     selectedWebhesab: [],
-   },
+  },
   data() {
     return {
       modalLinkAccountingToProduct: false,
       products: [],
       nameFilter: "",
       items: [],
-      
     };
   },
   watch: {
@@ -160,14 +159,17 @@ export default {
       })
         .then((response) => {
           this.modalLinkAccountingToProduct = false;
-          this.$store.dispatch("set_variants", "");
+          this.selectedWebhesab = [];
+          this.nameFilter = "";
+          this.products = [];
+          this.$emit("doSomething");
           console.log(response);
         })
         .catch((err) => {
           this.loading = false;
         });
     },
-     remove(item) {
+    remove(item) {
       this.selectedWebhesab.splice(this.selectedWebhesab.indexOf(item), 1);
     },
   },

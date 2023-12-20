@@ -1,9 +1,7 @@
 <template>
   <div>
     <v-card class="d-flex align-center" height="64" color="#616161" >
-      
         <span class="white--text ma-5 mx-15 t18600"> لیست حسابداری </span>
-      
     </v-card>
     <v-row class="ma-0" justify="center" align="center">
       <v-col class="px-6" cols="12">

@@ -1,52 +1,55 @@
 <template>
   <v-card outlined elevation="0">
     <v-data-table
-    v-model="selectedWebhesab"
-    item-key="id"
-    value="id"
-    show-select
-    :headers="headers"
-    :items="variants"
-    :items-per-page="200"
-    hide-default-footer
-    fixed-header
-    height="65vh"
-  >
-    <template v-slot:top>
-      <v-row justify="space-between" class="ma-0 pa-3">
-        <v-col cols="3">
-          <v-text-field
-            v-model="nameFilter"
-            outlined
-            background-color="white"
-            color="black"
-            label="نام محصول "
-            class="br-15"
-            filled
-            dense
-            hide-details
-            @keyup.enter="filterVariants"
-          ></v-text-field>
-        </v-col>
-        <ModalLinkAccountingToProduct :selectedWebhesab.sync="selectedWebhesab" />
-      </v-row>
-    </template>
-    <!-- <template v-slot:item.edit="{ item }">
+      v-model="selectedWebhesab"
+      item-key="id"
+      value="id"
+      show-select
+      :headers="headers"
+      :items="variants"
+      :items-per-page="200"
+      hide-default-footer
+      fixed-header
+      height="65vh"
+    >
+      <template v-slot:top>
+        <v-row justify="space-between" class="ma-0 pa-3">
+          <v-col cols="3">
+            <v-text-field
+              v-model="nameFilter"
+              outlined
+              background-color="white"
+              color="black"
+              label="نام محصول "
+              class="br-15"
+              filled
+              dense
+              hide-details
+              @keyup.enter="filterVariants"
+            ></v-text-field>
+          </v-col>
+          <ModalLinkAccountingToProduct
+            :selectedWebhesab.sync="selectedWebhesab"
+            @doSomething="afterLinkProduct"
+          />
+        </v-row>
+      </template>
+      <!-- <template v-slot:item.edit="{ item }">
       <ModalAccounting :variant="variant" />
     </template> -->
-    <template v-slot:footer>
-      <v-btn @click="test"></v-btn>
-      <div class="text-center my-5">
-        <v-pagination
-          v-model="page"
-          :total-visible="5"
-          :length="pageLength"
-          circle
-          color="black"
-        ></v-pagination>
-      </div>
-    </template>
-  </v-data-table>
+      <template v-slot:footer>
+         
+        <div class="text-center my-5">
+          <v-pagination
+            v-model="page"
+            :total-visible="5"
+            :length="pageLength"
+            circle
+            color="black"
+          ></v-pagination>
+        </div>
+      </template>
+    </v-data-table>
   </v-card>
 </template>
 
@@ -98,6 +101,12 @@ export default {
   methods: {
     test() {
       console.log(this.selectedWebhesab);
+    },
+    afterLinkProduct() {
+      this.$store.dispatch("set_variants", "");
+      this.page = 1;
+      this.nameFilter = "";
+      this.selectedWebhesab = [];
     },
     editProduct(obj) {
       this.$store.commit("public/set_producEdit", obj);
