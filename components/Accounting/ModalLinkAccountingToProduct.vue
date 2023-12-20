@@ -117,39 +117,38 @@ export default {
       );
       this.products = obj.adminProducts.results;
     },
-    assignVariantToProduct() {
-      let webhesabSelectedId = [];
+    assignVariantToProduct(product) {
+      // let webhesabSelectedId = [];
       //   this.selectedWebhesab.forEach((element) => {
       //     var form = {
       //       id: element.id,
       //     };
       //     webhesabSelectedId.push(form);
       //   });
-      let names = this.selectedWebhesab.map(function (item) {
+      let variantsID = this.selectedWebhesab.map(function (item) {
         return item["id"];
       });
-      console.log(names);
-      //   axios({
-      //     method: "patch",
-      //     url: process.env.apiUrl
-      //       .concat("variant/admin/")
-      //       .concat(this.variant.id)
-      //       .concat("/"),
-      //     headers: {
-      //       Authorization: "Bearer " + this.$cookies.get("token"),
-      //       "Content-Type": "application/json",
-      //     },
-      //     data: {
-      //       product: product.id,
-      //     },
-      //   })
-      //     .then((response) => {
-      //       this.dialog = false;
-      //       this.$store.dispatch("set_variants", "");
-      //     })
-      //     .catch((err) => {
-      //       this.loading = false;
-      //     });
+      console.log(variantsID.map(Number));
+       console.log(product);
+        axios({
+          method: "put",
+          url: process.env.apiUrl + 'product/admin/bulk_assignment/' + product.id + '/' ,
+          headers: {
+            Authorization: "Bearer " + this.$cookies.get("token"),
+            "Content-Type": "application/json",
+          },
+          data: {
+            variants: variantsID.map(Number),
+          },
+        })
+          .then((response) => {
+            this.modalLinkAccountingToProduct = false;
+            this.$store.dispatch("set_variants", "");
+            console.log(response);
+          })
+          .catch((err) => {
+            this.loading = false;
+          });
     },
   },
   //   beforeMount() {

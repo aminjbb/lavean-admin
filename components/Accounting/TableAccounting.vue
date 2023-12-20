@@ -35,7 +35,7 @@
       <ModalAccounting :variant="variant" />
     </template> -->
     <template v-slot:footer>
-      <!-- <v-btn @click="test"></v-btn> -->
+      <v-btn @click="test"></v-btn>
       <div class="text-center my-5">
         <v-pagination
           v-model="page"
