@@ -17,7 +17,7 @@
     >
       <v-toolbar elevation="0">
         <v-row class="ma-0" align="center" justify="center">
-          <img src="../assets/img/logo.svg" alt="">
+          <img src="../assets/img/logo.svg" alt="" />
         </v-row>
       </v-toolbar>
       <!-- <div class="box-nav-laveen">
@@ -37,6 +37,14 @@
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title v-text="item.title" />
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="logOut" router exact>
+          <v-list-item-action>
+            <v-icon color="error">mdi-exit-to-app</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <span class="error--text">خروج</span>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -107,12 +115,23 @@ export default {
           title: "لیست حسابداری",
           to: "/accounting",
         },
+        {
+          icon: "mdi-image-multiple",
+          title: "مدیریت بنرها",
+          to: "/banner-management",
+        },
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
       title: "Vuetify.js",
     };
+  },
+  methods: {
+    logOut() {
+      this.$cookies.remove("token");
+      this.$router.push("/login");
+    },
   },
   beforeMount() {
     if (!this.$cookies.get("token")) {

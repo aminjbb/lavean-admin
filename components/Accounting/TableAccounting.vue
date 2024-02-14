@@ -37,8 +37,7 @@
       <!-- <template v-slot:item.edit="{ item }">
       <ModalAccounting :variant="variant" />
     </template> -->
-      <template v-slot:footer>
-         
+      <template v-slot:footer>   
         <div class="text-center my-5">
           <v-pagination
             v-model="page"

@@ -1,13 +1,13 @@
 <template>
-  <div class="text-center">
-    <v-dialog v-model="modalLinkAccountingToProduct" width="800">
+  
+    <v-dialog  v-model="modalLinkAccountingToProduct" width="800" >
       <template v-slot:activator="{ on, attrs }">
         <v-btn fab @click="test" outlined v-bind="attrs" v-on="on">
           <v-icon>mdi-link-variant</v-icon>
         </v-btn>
       </template>
 
-      <v-card min-height="700px" max-height="750px">
+      <v-card class="pb-16">
         <v-row class="ma-0 pa-3" align="center" justify="space-between">
           <span> اتصال کد حسابداری </span>
           <v-btn icon @click="modalLinkAccountingToProduct = false">
@@ -80,7 +80,7 @@
         </v-col>
       </v-card>
     </v-dialog>
-  </div>
+  
 </template>
 
 <script>
