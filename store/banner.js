@@ -78,13 +78,13 @@ export const getters = {
 
 export function getAdminBanner() {
     console.log("end");
-    let offset = this.$route.query.page
-        ? (parseInt(this.$route.query.page) - 1) * 20
-        : 0
+    // let offset = this.$route.query.page
+    //     ? (parseInt(this.$route.query.page) - 1) * 20
+    //     : 0
     // let type = this.$route.query.type
     //     ? this.$route.query.type
     //     : '[]'
-    let staticFilter = 'limit:20'
-    var form = `${staticFilter},offset:${offset}`
+    let staticFilter = 'limit:20000000'
+    var form = `${staticFilter}`
     this.$store.dispatch('banner/set_banner', form)
 }

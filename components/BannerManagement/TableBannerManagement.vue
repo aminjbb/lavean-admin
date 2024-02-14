@@ -4,7 +4,7 @@
       :headers="headers"
       :items="banners"
       :loading="loading"
-      :items-per-page="20"
+      :items-per-page="-1"
       class="elevation-0"
       hide-default-footer
     >
